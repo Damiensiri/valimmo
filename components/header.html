@@ -17,33 +17,74 @@
     /* LOGO */
     .logo img{
       height:50px;
-      width:auto;
     }
 
-    .nav-links a{
+    /* MENU */
+    nav ul{
+      list-style:none;
+      display:flex;
+      gap:20px;
+    }
+
+    nav ul li{
+      position:relative;
+    }
+
+    nav a{
       color:white;
       text-decoration:none;
-      margin-left:20px;
       font-size:16px;
+      padding:8px 6px;
+      display:block;
     }
 
-    .nav-links a:hover{
+    nav a:hover{
       text-decoration:underline;
     }
 
+    /* SUBMENU */
+    nav ul li ul{
+      display:none;
+      position:absolute;
+      top:100%;
+      left:0;
+      background:white;
+      min-width:180px;
+      box-shadow:0 5px 15px rgba(0,0,0,.15);
+      border-radius:6px;
+      overflow:hidden;
+      z-index:1000;
+    }
+
+    nav ul li ul li a{
+      color:#333;
+      padding:10px 12px;
+    }
+
+    nav ul li ul li a:hover{
+      background:#f2f2f2;
+      text-decoration:none;
+    }
+
+    nav ul li:hover ul{
+      display:block;
+    }
+
     /* MOBILE */
-    @media(max-width:600px){
-      .nav{
+    @media(max-width:768px){
+      nav ul{
         flex-direction:column;
-        gap:12px;
+        align-items:center;
       }
 
-      .nav-links a{
-        margin:0 10px;
+      nav ul li ul{
+        position:static;
+        box-shadow:none;
+        background:#0a66c2;
       }
 
-      .logo img{
-        height:45px;
+      nav ul li ul li a{
+        color:white;
       }
     }
   </style>
@@ -57,12 +98,34 @@
       </a>
     </div>
 
-    <!-- NAV -->
-    <div class="nav-links">
-      <a href="index.html">Accueil</a>
-      <a href="locations.html">Locations</a>
-      <a href="contact.html">Contact</a>
-    </div>
+    <!-- NAVIGATION -->
+    <nav>
+      <ul>
+
+        <li>
+          <a href="#">Location</a>
+          <ul>
+            <li><a href="locations-appartements.html">Appartements</a></li>
+            <li><a href="locations-maisons.html">Maisons</a></li>
+            <li><a href="locations-meubles.html">Meublés</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#">Vente</a>
+          <ul>
+            <li><a href="ventes-maisons.html">Maisons</a></li>
+            <li><a href="ventes-appartements.html">Appartements</a></li>
+            <li><a href="ventes-commerces.html">Commerces</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="contact.html">Contact</a>
+        </li>
+
+      </ul>
+    </nav>
 
   </div>
 </header>
