@@ -135,6 +135,11 @@ fetch("components/footer.html")
     document.getElementById("footer").innerHTML = data;
   });
 
+/* MENU MOBILE */
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
+}
+
 /* LOAD DATA */
 fetch("data.json")
 .then(res => res.json())
