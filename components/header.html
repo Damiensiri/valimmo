@@ -1,0 +1,55 @@
+<header>
+  <style>
+    header{
+      background:#0a66c2;
+      color:white;
+      padding:20px;
+    }
+
+    .nav{
+      max-width:1200px;
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .logo{
+      font-size:22px;
+      font-weight:bold;
+    }
+
+    .nav-links a{
+      color:white;
+      text-decoration:none;
+      margin-left:20px;
+      font-size:16px;
+    }
+
+    .nav-links a:hover{
+      text-decoration:underline;
+    }
+
+    @media(max-width:600px){
+      .nav{
+        flex-direction:column;
+        gap:10px;
+      }
+
+      .nav-links a{
+        margin:0 10px;
+      }
+    }
+  </style>
+
+  <div class="nav">
+    <div class="logo">VALIMMO</div>
+
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="locations.html">Locations</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</header>
