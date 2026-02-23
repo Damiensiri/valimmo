@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valimmo - Agence Immobilière</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#f5f5f5;
+}
+
+/* HEADER */
+header{
+  background:#0a66c2;
+  color:white;
+  padding:20px;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.nav a{
+  color:white;
+  text-decoration:none;
+  margin-left:20px;
+}
+
+/* HERO */
+.hero{
+  background:url("https://picsum.photos/1600/700?home") center/cover no-repeat;
+  height:70vh;
+  display:flex;
+  align-items:center;
+}
+
+.hero-content{
+  background:rgba(0,0,0,0.55);
+  color:white;
+  padding:40px;
+  max-width:600px;
+  margin-left:5%;
+  border-radius:10px;
+}
+
+.hero h1{
+  font-size:36px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  font-size:18px;
+  margin-bottom:25px;
+}
+
+.hero button{
+  padding:14px 22px;
+  background:#0a66c2;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* SECTIONS */
+.section{
+  max-width:1200px;
+  margin:auto;
+  padding:60px 20px;
+}
+
+.section h2{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+/* SERVICES */
+.services{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.service-card{
+  background:white;
+  padding:25px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+/* CTA */
+.cta{
+  background:#0a66c2;
+  color:white;
+  text-align:center;
+  padding:60px 20px;
+}
+
+.cta h2{
+  margin-bottom:20px;
+}
+
+.cta button{
+  padding:14px 22px;
+  background:white;
+  color:#0a66c2;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+  background:#222;
+  color:white;
+  padding:30px 20px;
+  text-align:center;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  .hero{
+    height:auto;
+    padding:60px 20px;
+  }
+
+  .hero-content{
+    margin:0;
+  }
+
+  .hero h1{
+    font-size:26px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nav">
+    <div class="logo">VALIMMO</div>
+    <div>
+      <a href="index.html">Accueil</a>
+      <a href="locations.html">Locations</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Votre partenaire immobilier de confiance</h1>
+    <p>Découvrez nos biens disponibles à la location et trouvez votre futur logement simplement.</p>
+    <button onclick="location.href='locations.html'">
+      Voir les locations
+    </button>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section">
+  <h2>Nos services</h2>
+
+  <div class="services">
+    <div class="service-card">
+      <h3>Location</h3>
+      <p>Appartements, maisons, garages et locaux professionnels.</p>
+    </div>
+
+    <div class="service-card">
+      <h3>Gestion locative</h3>
+      <p>Nous gérons votre bien en toute sérénité.</p>
+    </div>
+
+    <div class="service-card">
+      <h3>Estimation</h3>
+      <p>Une estimation juste de votre bien immobilier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Vous avez un projet immobilier ?</h2>
+  <p>Contactez-nous dès maintenant.</p>
+  <button onclick="location.href='contact.html'">
+    Nous contacter
+  </button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© Valimmo - Tous droits réservés</p>
+  <p>
+    <a href="mentions-legales.html" style="color:white;">Mentions légales</a> |
+    <a href="bareme.html" style="color:white;">Barème</a>
+  </p>
+</footer>
+
+</body>
+</html>
