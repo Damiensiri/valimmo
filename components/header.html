@@ -2,8 +2,7 @@
   <style>
     header{
       background:#0a66c2;
-      color:white;
-      padding:20px;
+      padding:15px 20px;
     }
 
     .nav{
@@ -15,9 +14,10 @@
       flex-wrap:wrap;
     }
 
-    .logo{
-      font-size:22px;
-      font-weight:bold;
+    /* LOGO */
+    .logo img{
+      height:50px;
+      width:auto;
     }
 
     .nav-links a{
@@ -31,25 +31,38 @@
       text-decoration:underline;
     }
 
+    /* MOBILE */
     @media(max-width:600px){
       .nav{
         flex-direction:column;
-        gap:10px;
+        gap:12px;
       }
 
       .nav-links a{
         margin:0 10px;
       }
+
+      .logo img{
+        height:45px;
+      }
     }
   </style>
 
   <div class="nav">
-    <div class="logo">VALIMMO</div>
 
+    <!-- LOGO -->
+    <div class="logo">
+      <a href="index.html">
+        <img src="assets/logo.png" alt="Valimmo">
+      </a>
+    </div>
+
+    <!-- NAV -->
     <div class="nav-links">
       <a href="index.html">Accueil</a>
       <a href="locations.html">Locations</a>
       <a href="contact.html">Contact</a>
     </div>
+
   </div>
 </header>
