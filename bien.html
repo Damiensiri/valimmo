@@ -109,9 +109,30 @@ h1{
 
 <body>
 
+<!-- HEADER -->
+<div id="header"></div>
+
 <div class="container" id="content"></div>
 
+<!-- FOOTER -->
+<div id="footer"></div>
+
 <script>
+/* LOAD HEADER */
+fetch("components/header.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("header").innerHTML = data;
+  });
+
+/* LOAD FOOTER */
+fetch("components/footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
+
+/* LOAD DATA */
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
@@ -147,7 +168,7 @@ fetch("data.json")
     <h3>Description</h3>
     <p>${bien.description}</p>
 
-    <button class="back-btn" onclick="location.href='index.html'">
+    <button class="back-btn" onclick="location.href='locations.html'">
       Retour aux locations
     </button>
   `;
