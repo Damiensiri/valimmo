@@ -1,0 +1,31 @@
+[
+  {
+    "id":1,
+    "titre":"Appartement T3 centre-ville",
+    "ville":"Chaumont",
+    "type":"Appartement",
+    "loyer":650,
+    "surface":70,
+    "description":"Bel appartement lumineux entièrement rénové.",
+    "images":[
+      "https://picsum.photos/800/600?1",
+      "https://picsum.photos/800/600?2",
+      "https://picsum.photos/800/600?3"
+    ],
+    "disponible":true
+  },
+  {
+    "id":2,
+    "titre":"Maison avec jardin",
+    "ville":"Langres",
+    "type":"Maison",
+    "loyer":850,
+    "surface":110,
+    "description":"Maison familiale avec grand jardin.",
+    "images":[
+      "https://picsum.photos/800/600?4",
+      "https://picsum.photos/800/600?5"
+    ],
+    "disponible":true
+  }
+]
