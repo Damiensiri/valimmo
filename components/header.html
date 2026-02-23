@@ -1,89 +1,9 @@
-<header>
-<style>
-header{
-  background:#0a66c2;
-  padding:15px 20px;
-}
-
-.nav{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-/* LOGO */
-.logo img{
-  height:45px;
-}
-
-/* MENU TOGGLE (mobile only) */
-.menu-toggle{
-  display:none;
-  font-size:26px;
-  color:white;
-  cursor:pointer;
-}
-
-/* NAV DESKTOP */
-nav ul{
-  list-style:none;
-  display:flex;
-  gap:25px;
-  align-items:center;
-}
-
-nav li{
-  position:relative;
-}
-
-nav a{
-  color:white;
-  text-decoration:none;
-  font-size:16px;
-  padding:8px;
-  display:block;
-}
-
-nav a:hover{
-  opacity:0.85;
-}
-
-/* SUBMENU DESKTOP */
-nav li ul{
-  display:none;
-  position:absolute;
-  top:100%;
-  left:0;
-  background:white;
-  min-width:200px;
-  border-radius:6px;
-  box-shadow:0 5px 15px rgba(0,0,0,.15);
-  padding:10px 0;
-}
-
-nav li ul a{
-  color:#333;
-  padding:10px 15px;
-}
-
-nav li ul a:hover{
-  background:#f2f2f2;
-}
-
-nav li:hover ul{
-  display:block;
-}
-
-/* ---------------- MOBILE ---------------- */
 @media(max-width:768px){
 
 .menu-toggle{
   display:block;
 }
 
-/* Cacher menu par défaut */
 nav{
   display:none;
   width:100%;
@@ -94,7 +14,6 @@ nav.active{
   display:block;
 }
 
-/* Menu vertical centré */
 nav ul{
   flex-direction:column;
   align-items:center;
@@ -102,69 +21,14 @@ nav ul{
   gap:18px;
 }
 
-/* Liens centrés */
 nav a{
   text-align:center;
   font-size:18px;
 }
 
-/* Sous-menus fermés sur mobile */
+/* On masque totalement les sous-menus */
 nav li ul{
-  display:none;
-  position:static;
-  background:#0a66c2;
-  box-shadow:none;
-  padding:0;
-}
-
-nav li ul a{
-  color:white;
-  font-size:16px;
-  opacity:0.9;
+  display:none !important;
 }
 
 }
-</style>
-
-<div class="nav">
-
-  <!-- LOGO -->
-  <div class="logo">
-    <a href="index.html">
-      <img src="assets/logo.png" alt="Valimmo">
-    </a>
-  </div>
-
-  <!-- BURGER -->
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-  <!-- NAVIGATION -->
-  <nav id="menu">
-    <ul>
-
-      <li>
-        <a href="#">Location</a>
-        <ul>
-          <li><a href="#">Appartements</a></li>
-          <li><a href="#">Maisons</a></li>
-          <li><a href="#">Meublés</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="#">Vente</a>
-        <ul>
-          <li><a href="#">Maisons</a></li>
-          <li><a href="#">Appartements</a></li>
-          <li><a href="#">Commerces</a></li>
-        </ul>
-      </li>
-
-      <li><a href="contact.html">Contact</a></li>
-
-    </ul>
-  </nav>
-
-</div>
-
-</header>
