@@ -110,11 +110,32 @@ button:hover{
 
 <body>
 
+<!-- HEADER -->
+<div id="header"></div>
+
 <h1>Nos locations</h1>
 
 <div class="grid" id="listings"></div>
 
+<!-- FOOTER -->
+<div id="footer"></div>
+
 <script>
+/* LOAD HEADER */
+fetch("components/header.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("header").innerHTML = data;
+  });
+
+/* LOAD FOOTER */
+fetch("components/footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
+
+/* LOAD DATA */
 fetch("data.json")
 .then(res => res.json())
 .then(data => {
