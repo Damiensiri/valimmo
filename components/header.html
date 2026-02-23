@@ -1,131 +1,143 @@
 <header>
-  <style>
-    header{
-      background:#0a66c2;
-      padding:15px 20px;
-    }
+<style>
+header{
+  background:#0a66c2;
+  padding:15px 20px;
+}
 
-    .nav{
-      max-width:1200px;
-      margin:auto;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-    }
+.nav{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    /* LOGO */
-    .logo img{
-      height:70px;
-    }
+/* LOGO */
+.logo img{
+  height:45px;
+}
 
-    /* MENU */
-    nav ul{
-      list-style:none;
-      display:flex;
-      gap:20px;
-    }
+/* TOGGLE */
+.menu-toggle{
+  display:none;
+  font-size:26px;
+  color:white;
+  cursor:pointer;
+}
 
-    nav ul li{
-      position:relative;
-    }
+/* MENU */
+nav ul{
+  list-style:none;
+  display:flex;
+  gap:20px;
+}
 
-    nav a{
-      color:white;
-      text-decoration:none;
-      font-size:16px;
-      padding:8px 6px;
-      display:block;
-    }
+nav li{
+  position:relative;
+}
 
-    nav a:hover{
-      text-decoration:underline;
-    }
+nav a{
+  color:white;
+  text-decoration:none;
+  padding:8px;
+  display:block;
+}
 
-    /* SUBMENU */
-    nav ul li ul{
-      display:none;
-      position:absolute;
-      top:100%;
-      left:0;
-      background:white;
-      min-width:180px;
-      box-shadow:0 5px 15px rgba(0,0,0,.15);
-      border-radius:6px;
-      overflow:hidden;
-      z-index:1000;
-    }
+/* SUBMENU DESKTOP */
+nav li ul{
+  display:none;
+  position:absolute;
+  background:white;
+  top:100%;
+  left:0;
+  min-width:180px;
+  border-radius:6px;
+}
 
-    nav ul li ul li a{
-      color:#333;
-      padding:10px 12px;
-    }
+nav li ul a{
+  color:#333;
+}
 
-    nav ul li ul li a:hover{
-      background:#f2f2f2;
-      text-decoration:none;
-    }
+nav li:hover ul{
+  display:block;
+}
 
-    nav ul li:hover ul{
-      display:block;
-    }
+/* MOBILE */
+@media(max-width:768px){
 
-    /* MOBILE */
-    @media(max-width:768px){
-      nav ul{
-        flex-direction:column;
-        align-items:center;
-      }
+.menu-toggle{
+  display:block;
+}
 
-      nav ul li ul{
-        position:static;
-        box-shadow:none;
-        background:#0a66c2;
-      }
+nav{
+  display:none;
+  width:100%;
+}
 
-      nav ul li ul li a{
-        color:white;
-      }
-    }
-  </style>
+nav.active{
+  display:block;
+}
 
-  <div class="nav">
+nav ul{
+  flex-direction:column;
+  margin-top:15px;
+}
 
-    <!-- LOGO -->
-    <div class="logo">
-      <a href="index.html">
-        <img src="assets/logo.png" alt="Valimmo">
-      </a>
-    </div>
+nav li ul{
+  position:static;
+  background:#0a66c2;
+}
 
-    <!-- NAVIGATION -->
-    <nav>
-      <ul>
+nav li ul a{
+  color:white;
+  padding-left:20px;
+}
 
-        <li>
-          <a href="#">Location</a>
-          <ul>
-            <li><a href="locations-appartements.html">Appartements</a></li>
-            <li><a href="locations-maisons.html">Maisons</a></li>
-            <li><a href="locations-meubles.html">Meublés</a></li>
-          </ul>
-        </li>
+}
+</style>
 
-        <li>
-          <a href="#">Vente</a>
-          <ul>
-            <li><a href="ventes-maisons.html">Maisons</a></li>
-            <li><a href="ventes-appartements.html">Appartements</a></li>
-            <li><a href="ventes-commerces.html">Commerces</a></li>
-          </ul>
-        </li>
+<div class="nav">
 
-        <li>
-          <a href="contact.html">Contact</a>
-        </li>
-
-      </ul>
-    </nav>
-
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/logo.png">
+    </a>
   </div>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav id="menu">
+    <ul>
+
+      <li>
+        <a href="#">Location</a>
+        <ul>
+          <li><a href="#">Appartements</a></li>
+          <li><a href="#">Maisons</a></li>
+          <li><a href="#">Meublés</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#">Vente</a>
+        <ul>
+          <li><a href="#">Maisons</a></li>
+          <li><a href="#">Appartements</a></li>
+          <li><a href="#">Commerces</a></li>
+        </ul>
+      </li>
+
+      <li><a href="contact.html">Contact</a></li>
+
+    </ul>
+  </nav>
+
+</div>
+
+<script>
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
+}
+</script>
 </header>
