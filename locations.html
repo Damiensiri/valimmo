@@ -22,19 +22,37 @@ h1{
   padding:20px;
 }
 
-/* FILTERS */
-.filters{
+/* TABS */
+.tabs{
   display:flex;
   justify-content:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:10px;
+  gap:30px;
+  border-bottom:1px solid #ddd;
+  max-width:600px;
+  margin:0 auto 20px;
 }
 
-.filters button{
-  width:auto;
-  padding:10px 18px;
-  border-radius:20px;
+.tab{
+  padding:10px 0;
+  cursor:pointer;
+  font-size:16px;
+  color:#555;
+  position:relative;
+}
+
+.tab.active{
+  color:#0a66c2;
+  font-weight:bold;
+}
+
+.tab.active::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-1px;
+  width:100%;
+  height:2px;
+  background:#0a66c2;
 }
 
 /* GRID */
@@ -53,11 +71,6 @@ h1{
   border-radius:12px;
   overflow:hidden;
   box-shadow:0 4px 10px rgba(0,0,0,.1);
-  transition:transform .2s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
 }
 
 .card img{
@@ -71,126 +84,78 @@ h1{
   padding:15px;
 }
 
-.card-content h3{
-  margin-bottom:6px;
-  font-size:18px;
-}
-
-.card-content p{
-  margin-bottom:6px;
-  color:#555;
-}
-
 .price{
   font-weight:bold;
-  font-size:18px;
   color:#0a66c2;
 }
 
-/* BUTTON */
-button{
-  margin-top:10px;
-  padding:12px;
-  border:none;
-  background:#0a66c2;
-  color:#fff;
-  border-radius:20px;
-  font-size:15px;
-  cursor:pointer;
-}
-
-button:hover{
-  background:#084d94;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-  h1{
-    font-size:22px;
-  }
-
-  .card img{
-    height:180px;
-  }
-}
+/* HEADER/FOOTER SPACE */
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div id="header"></div>
 
 <h1>Nos locations</h1>
 
-<!-- FILTERS -->
-<div class="filters">
-  <button onclick="filterType('all')">Tous</button>
-  <button onclick="filterType('Appartement')">Appartements</button>
-  <button onclick="filterType('Maison')">Maisons</button>
-  <button onclick="filterType('Meublé')">Meublés</button>
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="filterType('all',this)">Tous</div>
+  <div class="tab" onclick="filterType('Appartement',this)">Appartements</div>
+  <div class="tab" onclick="filterType('Maison',this)">Maisons</div>
+  <div class="tab" onclick="filterType('Meublé',this)">Meublés</div>
 </div>
 
 <div class="grid" id="listings"></div>
 
-<!-- FOOTER -->
 <div id="footer"></div>
 
 <script>
-/* LOAD HEADER */
-fetch("components/header.html")
-.then(res => res.text())
-.then(data => document.getElementById("header").innerHTML = data);
+// load header/footer
+fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
+fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
 
-/* LOAD FOOTER */
-fetch("components/footer.html")
-.then(res => res.text())
-.then(data => document.getElementById("footer").innerHTML = data);
-
-/* MENU MOBILE */
+// mobile menu
 function toggleMenu(){
-  document.getElementById("menu").classList.toggle("active");
+ document.getElementById("menu").classList.toggle("active");
 }
 
-let biens = [];
+let biens=[];
 
-/* LOAD DATA */
+// load data
 fetch("data.json")
-.then(res => res.json())
-.then(data => {
-  biens = data.filter(b => b.disponible);
-  displayBiens(biens);
+.then(r=>r.json())
+.then(data=>{
+  biens=data.filter(b=>b.disponible);
+  display(biens);
 });
 
-/* DISPLAY */
-function displayBiens(list){
-  const container = document.getElementById("listings");
-  container.innerHTML = "";
-
-  list.forEach(bien => {
-    container.innerHTML += `
+// display
+function display(list){
+  listings.innerHTML="";
+  list.forEach(b=>{
+    listings.innerHTML+=`
       <div class="card">
-        <img src="${bien.images[0]}" alt="${bien.titre}">
+        <img src="${b.images[0]}">
         <div class="card-content">
-          <h3>${bien.titre}</h3>
-          <p>${bien.ville}</p>
-          <p class="price">${bien.loyer} € / mois</p>
-          <button onclick="location.href='bien.html?id=${bien.id}'">
-            Voir le bien
-          </button>
+          <h3>${b.titre}</h3>
+          <p>${b.ville}</p>
+          <p class="price">${b.loyer} € / mois</p>
+          <button onclick="location.href='bien.html?id=${b.id}'">Voir le bien</button>
         </div>
       </div>
     `;
   });
 }
 
-/* FILTER */
-function filterType(type){
-  if(type === "all"){
-    displayBiens(biens);
-  }else{
-    displayBiens(biens.filter(b => b.type === type));
-  }
+// filter
+function filterType(type,el){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+
+  if(type==="all") display(biens);
+  else display(biens.filter(b=>b.type===type));
 }
 </script>
 
