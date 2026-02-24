@@ -27,8 +27,16 @@ body{
   position:absolute;
   top:15px;
   left:15px;
+  display:flex;
+  align-items:center;
+  gap:6px;
   text-decoration:none;
   color:#0a66c2;
+  font-size:14px;
+}
+
+.back-link img{
+  width:14px;
 }
 
 /* BADGE */
@@ -51,13 +59,11 @@ h1{margin-top:40px;}
   color:#666;
   margin-bottom:15px;
 }
+
 .city img{width:16px;}
 
-/* ===== GALLERY ===== */
-
-.gallery{
-  margin-bottom:25px;
-}
+/* GALLERY */
+.gallery{margin-bottom:25px;}
 
 .main-image img{
   width:100%;
@@ -90,7 +96,6 @@ h1{margin-top:40px;}
 }
 
 /* INFOS */
-
 .infos{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -106,7 +111,6 @@ h1{margin-top:40px;}
 }
 
 /* ACCORDION */
-
 .accordion-toggle{
   text-align:center;
   color:#0a66c2;
@@ -122,7 +126,6 @@ h1{margin-top:40px;}
 }
 
 /* ENERGY */
-
 .energy{
   display:flex;
   justify-content:center;
@@ -135,11 +138,8 @@ h1{margin-top:40px;}
 }
 
 /* MOBILE */
-
 @media(max-width:768px){
-.main-image img{
-  height:300px;
-}
+.main-image img{height:300px;}
 }
 </style>
 </head>
@@ -151,7 +151,11 @@ h1{margin-top:40px;}
 
 <div class="container">
 
-<a href="locations.html" class="back-link">← Retour</a>
+<a href="locations.html" class="back-link">
+  <img src="assets/back.svg">
+  Retour
+</a>
+
 <span class="badge">Disponible</span>
 
 <h1>Appartement T3 centre-ville</h1>
@@ -161,7 +165,6 @@ h1{margin-top:40px;}
 </div>
 
 <!-- GALLERY -->
-
 <div class="gallery">
 
   <div class="main-image">
@@ -178,7 +181,6 @@ h1{margin-top:40px;}
 </div>
 
 <!-- MAIN INFOS -->
-
 <div class="infos">
   <div class="info-box"><strong>Surface</strong><br>68 m²</div>
   <div class="info-box"><strong>Type</strong><br>Appartement</div>
@@ -186,7 +188,6 @@ h1{margin-top:40px;}
 </div>
 
 <!-- ACCORDION -->
-
 <div class="accordion-toggle" onclick="toggleInfos()">
 Plus d’informations ▼
 </div>
@@ -225,7 +226,7 @@ deux chambres et salle de bain.
 <div id="footer"></div>
 
 <script>
-// LOAD HEADER / FOOTER
+// HEADER / FOOTER
 fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
 fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
 
