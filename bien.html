@@ -146,19 +146,23 @@ h1{
 <div id="footer"></div>
 
 <script>
+// HEADER / FOOTER
 fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
 fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
 
+// MENU MOBILE
 function toggleMenu(){
  document.getElementById("menu").classList.toggle("active");
 }
 
+// PARAM
 const params=new URLSearchParams(window.location.search);
 const id=params.get("id");
 
 let sliderInterval;
 let currentIndex=0;
 
+// LOAD DATA
 fetch("data.json")
 .then(r=>r.json())
 .then(data=>{
@@ -227,15 +231,17 @@ ${bien.ville}
 </div>
 
 <div class="energy">
+
  <div class="info-box">
    <strong>DPE</strong><br>
-   <img src="${bien.dpe || 'https://i.imgur.com/eG4KZQk.png'}">
+   <img src="${bien.dpe || 'assets/dpe-exemple.png'}">
  </div>
 
  <div class="info-box">
    <strong>GES</strong><br>
-   <img src="${bien.ges || 'https://i.imgur.com/4L7M7Zp.png'}">
+   <img src="${bien.ges || 'assets/ges-exemple.png'}">
  </div>
+
 </div>
 
 <h3>Description</h3>
