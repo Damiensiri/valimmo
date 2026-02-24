@@ -35,9 +35,7 @@ body{
   font-size:14px;
 }
 
-.back-link img{
-  width:14px;
-}
+.back-link img{width:14px;}
 
 /* BADGE */
 .badge{
@@ -59,7 +57,6 @@ h1{margin-top:40px;}
   color:#666;
   margin-bottom:15px;
 }
-
 .city img{width:16px;}
 
 /* GALLERY */
@@ -86,7 +83,7 @@ h1{margin-top:40px;}
   object-fit:cover;
   border-radius:6px;
   cursor:pointer;
-  opacity:0.7;
+  opacity:.7;
   transition:.2s;
 }
 
@@ -133,11 +130,8 @@ h1{margin-top:40px;}
   margin:25px 0;
 }
 
-.energy img{
-  width:110px;
-}
+.energy img{width:110px;}
 
-/* MOBILE */
 @media(max-width:768px){
 .main-image img{height:300px;}
 }
@@ -180,7 +174,7 @@ h1{margin-top:40px;}
 
 </div>
 
-<!-- MAIN INFOS -->
+<!-- INFOS -->
 <div class="infos">
   <div class="info-box"><strong>Surface</strong><br>68 m²</div>
   <div class="info-box"><strong>Type</strong><br>Appartement</div>
@@ -205,7 +199,6 @@ Plus d’informations ▼
     <strong>DPE</strong><br>
     <img src="assets/dpe-exemple.png">
   </div>
-
   <div>
     <strong>GES</strong><br>
     <img src="assets/ges-exemple.png">
@@ -226,19 +219,17 @@ deux chambres et salle de bain.
 <div id="footer"></div>
 
 <script>
-// LOAD HEADER / FOOTER
+// HEADER / FOOTER
 fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
 fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
 
 // MENU MOBILE
 function toggleMenu(){
-  const menu=document.getElementById("menu");
-  if(menu){
-    menu.classList.toggle("active");
-  }
+ const menu=document.getElementById("menu");
+ if(menu) menu.classList.toggle("active");
 }
 
-// GALLERY
+// SLIDER
 const images=[
  "https://picsum.photos/1200/700?1",
  "https://picsum.photos/1200/700?2",
@@ -246,7 +237,17 @@ const images=[
  "https://picsum.photos/1200/700?4"
 ];
 
+let currentIndex=0;
+let slider=setInterval(autoSlide,3000);
+
+function autoSlide(){
+ currentIndex=(currentIndex+1)%images.length;
+ document.getElementById("mainImg").src=images[currentIndex];
+}
+
 function showImage(i){
+ clearInterval(slider);
+ currentIndex=i;
  document.getElementById("mainImg").src=images[i];
 }
 
