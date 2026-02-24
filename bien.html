@@ -116,16 +116,25 @@ h1{
 
 /* ENERGY */
 .energy{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-  margin-bottom:25px;
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  margin:30px 0;
+  flex-wrap:wrap;
 }
 
-.energy img{
-  width:100%;
-  max-height:120px;
-  object-fit:contain;
+.energy-box{
+  text-align:center;
+}
+
+.energy-box img{
+  width:110px;
+  cursor:pointer;
+  transition:transform .2s ease;
+}
+
+.energy-box img:hover{
+  transform:scale(1.05);
 }
 
 /* MOBILE */
@@ -150,12 +159,10 @@ h1{
 fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
 fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
 
-// MENU MOBILE
 function toggleMenu(){
  document.getElementById("menu").classList.toggle("active");
 }
 
-// PARAM
 const params=new URLSearchParams(window.location.search);
 const id=params.get("id");
 
@@ -232,14 +239,14 @@ ${bien.ville}
 
 <div class="energy">
 
- <div class="info-box">
+ <div class="energy-box">
    <strong>DPE</strong><br>
-   <img src="${bien.dpe || 'assets/dpe-exemple.png'}">
+   <img src="${bien.dpe || 'assets/dpe-exemple.png'}" onclick="openImage(this.src)">
  </div>
 
- <div class="info-box">
+ <div class="energy-box">
    <strong>GES</strong><br>
-   <img src="${bien.ges || 'assets/ges-exemple.png'}">
+   <img src="${bien.ges || 'assets/ges-exemple.png'}" onclick="openImage(this.src)">
  </div>
 
 </div>
@@ -251,6 +258,7 @@ ${bien.ville}
 startSlider(bien.images);
 });
 
+// AUTO SLIDER
 function startSlider(images){
  sliderInterval=setInterval(()=>{
    currentIndex=(currentIndex+1)%images.length;
@@ -258,11 +266,41 @@ function startSlider(images){
  },3000);
 }
 
+// CLICK THUMB
 function showImage(i){
  clearInterval(sliderInterval);
  currentIndex=i;
  document.getElementById("mainImg").src=
  document.querySelectorAll(".thumbs img")[i].src;
+}
+
+// LIGHTBOX
+function openImage(src){
+ const overlay=document.createElement("div");
+ overlay.style.position="fixed";
+ overlay.style.top="0";
+ overlay.style.left="0";
+ overlay.style.width="100%";
+ overlay.style.height="100%";
+ overlay.style.background="rgba(0,0,0,0.85)";
+ overlay.style.display="flex";
+ overlay.style.alignItems="center";
+ overlay.style.justifyContent="center";
+ overlay.style.zIndex="9999";
+
+ const img=document.createElement("img");
+ img.src=src;
+ img.style.maxWidth="90%";
+ img.style.maxHeight="90%";
+ img.style.borderRadius="8px";
+
+ overlay.appendChild(img);
+
+ overlay.onclick=function(){
+   document.body.removeChild(overlay);
+ };
+
+ document.body.appendChild(overlay);
 }
 </script>
 
