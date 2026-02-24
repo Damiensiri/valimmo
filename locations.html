@@ -22,6 +22,21 @@ h1{
   padding:20px;
 }
 
+/* FILTERS */
+.filters{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+
+.filters button{
+  width:auto;
+  padding:10px 18px;
+  border-radius:20px;
+}
+
 /* GRID */
 .grid{
   display:grid;
@@ -75,13 +90,12 @@ h1{
 /* BUTTON */
 button{
   margin-top:10px;
-  width:100%;
   padding:12px;
   border:none;
   background:#0a66c2;
   color:#fff;
-  border-radius:6px;
-  font-size:16px;
+  border-radius:20px;
+  font-size:15px;
   cursor:pointer;
 }
 
@@ -89,9 +103,8 @@ button:hover{
   background:#084d94;
 }
 
-/* MOBILE OPTIMIZATION */
+/* MOBILE */
 @media(max-width:600px){
-
   h1{
     font-size:22px;
   }
@@ -99,11 +112,6 @@ button:hover{
   .card img{
     height:180px;
   }
-
-  button{
-    font-size:15px;
-  }
-
 }
 </style>
 </head>
@@ -115,6 +123,14 @@ button:hover{
 
 <h1>Nos locations</h1>
 
+<!-- FILTERS -->
+<div class="filters">
+  <button onclick="filterType('all')">Tous</button>
+  <button onclick="filterType('Appartement')">Appartements</button>
+  <button onclick="filterType('Maison')">Maisons</button>
+  <button onclick="filterType('Meublé')">Meublés</button>
+</div>
+
 <div class="grid" id="listings"></div>
 
 <!-- FOOTER -->
@@ -123,51 +139,59 @@ button:hover{
 <script>
 /* LOAD HEADER */
 fetch("components/header.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("header").innerHTML = data;
-  });
+.then(res => res.text())
+.then(data => document.getElementById("header").innerHTML = data);
 
 /* LOAD FOOTER */
 fetch("components/footer.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-  });
+.then(res => res.text())
+.then(data => document.getElementById("footer").innerHTML = data);
 
 /* MENU MOBILE */
 function toggleMenu(){
   document.getElementById("menu").classList.toggle("active");
 }
 
+let biens = [];
+
 /* LOAD DATA */
 fetch("data.json")
 .then(res => res.json())
 .then(data => {
-
-  const container = document.getElementById("listings");
-
-  data.forEach(bien => {
-    if(bien.disponible){
-
-      container.innerHTML += `
-        <div class="card">
-          <img src="${bien.images[0]}" alt="${bien.titre}">
-          <div class="card-content">
-            <h3>${bien.titre}</h3>
-            <p>${bien.ville}</p>
-            <p class="price">${bien.loyer} € / mois</p>
-            <button onclick="location.href='bien.html?id=${bien.id}'">
-              Voir le bien
-            </button>
-          </div>
-        </div>
-      `;
-
-    }
-  });
-
+  biens = data.filter(b => b.disponible);
+  displayBiens(biens);
 });
+
+/* DISPLAY */
+function displayBiens(list){
+  const container = document.getElementById("listings");
+  container.innerHTML = "";
+
+  list.forEach(bien => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${bien.images[0]}" alt="${bien.titre}">
+        <div class="card-content">
+          <h3>${bien.titre}</h3>
+          <p>${bien.ville}</p>
+          <p class="price">${bien.loyer} € / mois</p>
+          <button onclick="location.href='bien.html?id=${bien.id}'">
+            Voir le bien
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* FILTER */
+function filterType(type){
+  if(type === "all"){
+    displayBiens(biens);
+  }else{
+    displayBiens(biens.filter(b => b.type === type));
+  }
+}
 </script>
 
 </body>
