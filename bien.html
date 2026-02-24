@@ -13,6 +13,7 @@ body{
   background:#f5f5f5;
 }
 
+/* CONTAINER */
 .container{
   max-width:1100px;
   margin:auto;
@@ -52,35 +53,44 @@ h1{margin-top:40px;}
 }
 .city img{width:16px;}
 
-/* GALLERY */
+/* ===== GALLERY ===== */
+
 .gallery{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:10px;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
 
 .main-image img{
   width:100%;
+  height:450px;
+  object-fit:cover;
   border-radius:8px;
 }
 
 .thumbs{
   display:flex;
-  gap:8px;
   justify-content:center;
+  gap:10px;
+  margin-top:10px;
   overflow-x:auto;
 }
 
 .thumbs img{
-  width:70px;
-  height:70px;
+  width:80px;
+  height:80px;
   object-fit:cover;
   border-radius:6px;
   cursor:pointer;
+  opacity:0.7;
+  transition:.2s;
+}
+
+.thumbs img:hover{
+  opacity:1;
+  transform:scale(1.05);
 }
 
 /* INFOS */
+
 .infos{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -96,6 +106,7 @@ h1{margin-top:40px;}
 }
 
 /* ACCORDION */
+
 .accordion-toggle{
   text-align:center;
   color:#0a66c2;
@@ -111,6 +122,7 @@ h1{margin-top:40px;}
 }
 
 /* ENERGY */
+
 .energy{
   display:flex;
   justify-content:center;
@@ -122,13 +134,20 @@ h1{margin-top:40px;}
   width:110px;
 }
 
+/* MOBILE */
+
 @media(max-width:768px){
-.gallery{grid-template-columns:1fr;}
+.main-image img{
+  height:300px;
+}
 }
 </style>
 </head>
 
 <body>
+
+<!-- HEADER -->
+<div id="header"></div>
 
 <div class="container">
 
@@ -141,22 +160,32 @@ h1{margin-top:40px;}
 <img src="assets/loca.svg"> Chaumont
 </div>
 
+<!-- GALLERY -->
+
 <div class="gallery">
+
   <div class="main-image">
-    <img id="mainImg" src="https://picsum.photos/800/500?1">
+    <img id="mainImg" src="https://picsum.photos/1200/700?1">
   </div>
+
   <div class="thumbs">
     <img src="https://picsum.photos/200/200?1" onclick="showImage(0)">
     <img src="https://picsum.photos/200/200?2" onclick="showImage(1)">
     <img src="https://picsum.photos/200/200?3" onclick="showImage(2)">
+    <img src="https://picsum.photos/200/200?4" onclick="showImage(3)">
   </div>
+
 </div>
+
+<!-- MAIN INFOS -->
 
 <div class="infos">
   <div class="info-box"><strong>Surface</strong><br>68 m²</div>
   <div class="info-box"><strong>Type</strong><br>Appartement</div>
   <div class="info-box"><strong>Loyer</strong><br>650 €</div>
 </div>
+
+<!-- ACCORDION -->
 
 <div class="accordion-toggle" onclick="toggleInfos()">
 Plus d’informations ▼
@@ -192,16 +221,27 @@ deux chambres et salle de bain.
 
 </div>
 
+<!-- FOOTER -->
+<div id="footer"></div>
+
 <script>
+// LOAD HEADER / FOOTER
+fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
+fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
+
+// GALLERY
+const images=[
+ "https://picsum.photos/1200/700?1",
+ "https://picsum.photos/1200/700?2",
+ "https://picsum.photos/1200/700?3",
+ "https://picsum.photos/1200/700?4"
+];
+
 function showImage(i){
- const imgs=[
-  "https://picsum.photos/800/500?1",
-  "https://picsum.photos/800/500?2",
-  "https://picsum.photos/800/500?3"
- ];
- document.getElementById("mainImg").src=imgs[i];
+ document.getElementById("mainImg").src=images[i];
 }
 
+// ACCORDION
 function toggleInfos(){
  const el=document.getElementById("moreInfos");
  if(el.style.maxHeight){
