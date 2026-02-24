@@ -89,7 +89,35 @@ h1{
   color:#0a66c2;
 }
 
-/* HEADER/FOOTER SPACE */
+/* CITY */
+.city{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#555;
+  margin-bottom:6px;
+}
+
+.city img{
+  width:16px;
+  height:16px;
+}
+
+/* BUTTON */
+button{
+  margin-top:10px;
+  padding:12px;
+  border:none;
+  background:#0a66c2;
+  color:#fff;
+  border-radius:20px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#084d94;
+}
 </style>
 </head>
 
@@ -140,9 +168,17 @@ function display(list){
         <img src="${b.images[0]}">
         <div class="card-content">
           <h3>${b.titre}</h3>
-          <p>${b.ville}</p>
+
+          <p class="city">
+            <img src="assets/loca.svg" alt="Localisation">
+            ${b.ville}
+          </p>
+
           <p class="price">${b.loyer} € / mois</p>
-          <button onclick="location.href='bien.html?id=${b.id}'">Voir le bien</button>
+
+          <button onclick="location.href='bien.html?id=${b.id}'">
+            Voir le bien
+          </button>
         </div>
       </div>
     `;
