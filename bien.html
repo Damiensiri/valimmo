@@ -226,9 +226,17 @@ deux chambres et salle de bain.
 <div id="footer"></div>
 
 <script>
-// HEADER / FOOTER
+// LOAD HEADER / FOOTER
 fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
 fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
+
+// MENU MOBILE
+function toggleMenu(){
+  const menu=document.getElementById("menu");
+  if(menu){
+    menu.classList.toggle("active");
+  }
+}
 
 // GALLERY
 const images=[
