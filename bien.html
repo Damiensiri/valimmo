@@ -114,8 +114,18 @@ h1{margin-top:40px;}
   cursor:pointer;
   margin:15px 0;
   font-size:14px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
 }
 
+.toggle-icon{
+  font-weight:bold;
+  font-size:16px;
+}
+
+/* Contenu caché */
 .accordion-content{
   max-height:0;
   overflow:hidden;
@@ -174,7 +184,7 @@ h1{margin-top:40px;}
 
 </div>
 
-<!-- INFOS -->
+<!-- INFOS PRINCIPALES -->
 <div class="infos">
   <div class="info-box"><strong>Surface</strong><br>68 m²</div>
   <div class="info-box"><strong>Type</strong><br>Appartement</div>
@@ -183,7 +193,8 @@ h1{margin-top:40px;}
 
 <!-- ACCORDION -->
 <div class="accordion-toggle" onclick="toggleInfos()">
-Plus d’informations ▼
+  <span id="toggleIcon" class="toggle-icon">+</span>
+  Charges & DPE
 </div>
 
 <div id="moreInfos" class="accordion-content">
@@ -254,10 +265,14 @@ function showImage(i){
 // ACCORDION
 function toggleInfos(){
  const el=document.getElementById("moreInfos");
+ const icon=document.getElementById("toggleIcon");
+
  if(el.style.maxHeight){
    el.style.maxHeight=null;
+   icon.innerText="+";
  }else{
    el.style.maxHeight=el.scrollHeight+"px";
+   icon.innerText="−";
  }
 }
 </script>
