@@ -124,7 +124,7 @@ h1{
 
 <div id="header"></div>
 
-<h1>Nos biens à la vente</h1>
+<h1>Nos ventes</h1>
 
 <div class="tabs">
   <div class="tab active" onclick="filterType('all',this)">Tous</div>
@@ -154,12 +154,12 @@ fetch("components/footer.html")
 
 let biens=[];
 
-/* DATA (temporaire data.json, sera remplacé par feuille Ventes) */
+/* DATA */
 fetch("data.json")
 .then(r=>r.json())
 .then(data=>{
-  // Plus tard : on supprimera ce filtre
-  biens=data.filter(b=>b.categorie==="vente" && b.disponible);
+  // 🔥 changement principal ici
+  biens = data.filter(b => b.visible === "TRUE");
   display(biens);
 });
 
