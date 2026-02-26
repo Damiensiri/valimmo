@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commerces</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family: Arial, sans-serif;
+  background:#f5f5f5;
+}
+
+/* Sécurise le menu */
+#header{
+  position:relative;
+  z-index:1000;
+}
+
+h1{
+  text-align:center;
+  padding:20px;
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  border-bottom:1px solid #ddd;
+  max-width:600px;
+  margin:0 auto 20px;
+}
+
+.tab{
+  padding:10px 0;
+  cursor:pointer;
+  font-size:16px;
+  color:#555;
+  position:relative;
+}
+
+.tab.active{
+  color:#0a66c2;
+  font-weight:bold;
+}
+
+.tab.active::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-1px;
+  width:100%;
+  height:2px;
+  background:#0a66c2;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+  transition:transform .2s;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:15px;
+}
+
+.price{
+  font-weight:bold;
+  color:#0a66c2;
+}
+
+.city{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#555;
+  margin-bottom:6px;
+}
+
+.city img{
+  width:16px;
+  height:16px;
+}
+
+.hint{
+  color:#777;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<h1>Nos commerces</h1>
+
+<div class="tabs">
+  <div class="tab active" onclick="filterTransaction('all',this)">Tous</div>
+  <div class="tab" onclick="filterTransaction('Location',this)">Location</div>
+  <div class="tab" onclick="filterTransaction('Vente',this)">Vente</div>
+</div>
+
+<div class="grid" id="listings"></div>
+
+<div id="footer"></div>
+
+<script>
+
+/* HEADER */
+fetch("components/header.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("header").innerHTML = data;
+  });
+
+/* FOOTER */
+fetch("components/footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
+
+let commerces=[];
+
+/* DATA (temporaire via data.json) */
+fetch("data.json")
+.then(r=>r.json())
+.then(data=>{
+  commerces = data.filter(b=>b.categorie==="commerce" && b.disponible);
+  display(commerces);
+});
+
+function display(list){
+  const container = document.getElementById("listings");
+  container.innerHTML="";
+  list.forEach(b=>{
+    container.innerHTML+=`
+      <div class="card" onclick="location.href='bien.html?id=${b.id}'">
+        <img src="${b.images[0]}">
+        <div class="card-content">
+          <h3>${b.titre}</h3>
+
+          <p class="city">
+            <img src="assets/loca.svg">
+            ${b.ville}
+          </p>
+
+          <p class="price">
+            ${b.transaction==="Location" ? b.loyer+" € / mois" : b.prix+" €"}
+          </p>
+
+          <div class="hint">Cliquer pour voir le bien</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function filterTransaction(type,el){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+
+  if(type==="all") display(commerces);
+  else display(commerces.filter(b=>b.transaction===type));
+}
+
+</script>
+
+<script src="components/header.js"></script>
+
+</body>
+</html>
