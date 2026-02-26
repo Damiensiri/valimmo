@@ -1,253 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bien</title>
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-
-body{
-  font-family:Arial,sans-serif;
-  background:#f5f5f5;
-}
-
-/* IMPORTANT : corrige problème menu */
-#header{
-  position:relative;
-  z-index:1000;
-}
-
-/* CONTAINER */
-.container{
-  max-width:1100px;
-  margin:30px auto;
-  background:#fff;
-  padding:20px;
-  position:relative;
-  border-radius:8px;
-}
-
-/* BACK */
-.back-link{
-  position:absolute;
-  top:15px;
-  left:15px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  text-decoration:none;
-  color:#0a66c2;
-  font-size:14px;
-}
-
-.back-link img{ width:14px; }
-
-/* BADGE */
-.badge{
-  position:absolute;
-  top:15px;
-  right:15px;
-  background:#2ecc71;
-  color:#fff;
-  padding:6px 12px;
-  border-radius:20px;
-  font-size:13px;
-}
-
-h1{
-  margin-top:40px;
-  margin-bottom:6px;
-}
-
-/* CITY */
-.city{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  color:#666;
-  margin-bottom:20px;
-}
-
-.city img{ width:16px; }
-
-/* GALLERY */
-.gallery{ margin-bottom:25px; }
-
-.main-image img{
-  width:100%;
-  height:450px;
-  object-fit:cover;
-  border-radius:8px;
-}
-
-/* THUMBNAILS */
-.thumbs{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:10px;
-  overflow-x:auto;
-}
-
-.thumbs img{
-  width:80px;
-  height:80px;
-  object-fit:cover;
-  border-radius:6px;
-  cursor:pointer;
-  opacity:.7;
-  transition:.2s;
-  flex-shrink:0;
-}
-
-.thumbs img:hover{
-  opacity:1;
-  transform:scale(1.05);
-}
-
-/* INFOS → toujours 3 colonnes */
-.infos{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin:25px 0;
-}
-
-.info-box{
-  background:#f2f2f2;
-  padding:15px;
-  border-radius:8px;
-  text-align:center;
-}
-
-/* ACCORDION */
-.accordion-toggle{
-  text-align:center;
-  color:#0a66c2;
-  cursor:pointer;
-  margin:15px 0;
-  font-size:14px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-}
-
-.toggle-icon{
-  font-weight:bold;
-  font-size:16px;
-}
-
-.accordion-content{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .4s ease;
-}
-
-/* ENERGY → toujours 2 colonnes */
-.energy{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:40px;
-  margin:25px 0;
-  text-align:center;
-}
-
-.energy img{
-  width:110px;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.energy img:hover{
-  transform:scale(1.05);
-}
-
-/* MOBILE : on garde la structure */
-@media(max-width:768px){
-  .main-image img{
-    height:300px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div id="header"></div>
-
-<div class="container">
-
-<a href="locations.html" class="back-link">
-  <img src="assets/back.svg">
-  Retour
-</a>
-
-<span class="badge">Disponible</span>
-
-<h1>Appartement T3 centre-ville</h1>
-
-<div class="city">
-  <img src="assets/loca.svg">
-  Chaumont
-</div>
-
-<div class="gallery">
-  <div class="main-image">
-    <img id="mainImg" src="https://picsum.photos/1200/700?1">
-  </div>
-
-  <div class="thumbs">
-    <img src="https://picsum.photos/1200/700?1" onclick="showImage(0)">
-    <img src="https://picsum.photos/1200/700?2" onclick="showImage(1)">
-    <img src="https://picsum.photos/1200/700?3" onclick="showImage(2)">
-    <img src="https://picsum.photos/1200/700?4" onclick="showImage(3)">
-  </div>
-</div>
-
-<div class="infos">
-  <div class="info-box"><strong>Surface</strong><br>68 m²</div>
-  <div class="info-box"><strong>Type</strong><br>Appartement</div>
-  <div class="info-box"><strong>Loyer</strong><br>650 €</div>
-</div>
-
-<div class="accordion-toggle" onclick="toggleInfos()">
-  <span id="toggleIcon" class="toggle-icon">+</span>
-  Charges & DPE
-</div>
-
-<div id="moreInfos" class="accordion-content">
-  <div class="infos">
-    <div class="info-box"><strong>Dépôt de garantie</strong><br>650 €</div>
-    <div class="info-box"><strong>Honoraires</strong><br>420 €</div>
-    <div class="info-box"><strong>Charges</strong><br>50 €</div>
-  </div>
-
-  <div class="energy">
-    <div>
-      <strong>DPE</strong><br>
-      <img src="assets/dpe-exemple.png" onclick="openImage(this.src)">
-    </div>
-    <div>
-      <strong>GES</strong><br>
-      <img src="assets/ges-exemple.png" onclick="openImage(this.src)">
-    </div>
-  </div>
-</div>
-
-<h3>Description</h3>
-<p>
-Bel appartement lumineux situé en centre-ville avec séjour,
-cuisine équipée, deux chambres et salle de bain.
-</p>
-
-</div>
-
-<div id="footer"></div>
-
 <script>
+/* HEADER / FOOTER */
 fetch("components/header.html")
 .then(r=>r.text())
 .then(d=>document.getElementById("header").innerHTML=d);
@@ -256,17 +8,111 @@ fetch("components/footer.html")
 .then(r=>r.text())
 .then(d=>document.getElementById("footer").innerHTML=d);
 
-const images=[
- "https://picsum.photos/1200/700?1",
- "https://picsum.photos/1200/700?2",
- "https://picsum.photos/1200/700?3",
- "https://picsum.photos/1200/700?4"
-];
+/* PARAMS */
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+const cat = params.get("cat") || "locations"; // fallback
 
+/* LOAD DATA */
+fetch("data.json") // plus tard remplacé par feuille dédiée
+.then(r=>r.json())
+.then(data=>{
+
+  const bien = data.find(b => b.id == id);
+  if(!bien) return;
+
+  /* TITRE */
+  document.querySelector("h1").innerText = bien.titre;
+
+  /* VILLE */
+  document.querySelector(".city").innerHTML = `
+    <img src="assets/loca.svg">
+    ${bien.ville}
+  `;
+
+  /* BADGE */
+  const badge = document.querySelector(".badge");
+  badge.innerText = bien.disponible ? "Disponible" : "Vendu / Loué";
+  badge.style.background = bien.disponible ? "#2ecc71" : "#e74c3c";
+
+  /* PRIX */
+  const priceBox = document.querySelector(".infos .info-box:nth-child(3)");
+  if(bien.loyer){
+    priceBox.innerHTML = `<strong>Loyer</strong><br>${bien.loyer} € / mois`;
+  } else {
+    priceBox.innerHTML = `<strong>Prix</strong><br>${bien.prix} €`;
+  }
+
+  /* SURFACE + TYPE */
+  document.querySelector(".infos .info-box:nth-child(1)").innerHTML =
+    `<strong>Surface</strong><br>${bien.surface} m²`;
+
+  document.querySelector(".infos .info-box:nth-child(2)").innerHTML =
+    `<strong>Type</strong><br>${bien.type}`;
+
+  /* DESCRIPTION (HTML autorisé) */
+  document.querySelector("p").innerHTML = bien.description || "";
+
+  /* IMAGES */
+  const mainImg = document.getElementById("mainImg");
+  const thumbsContainer = document.querySelector(".thumbs");
+
+  mainImg.src = bien.images[0];
+  thumbsContainer.innerHTML = "";
+
+  bien.images.forEach((img,i)=>{
+    thumbsContainer.innerHTML += `
+      <img src="${img}" onclick="showImage(${i})">
+    `;
+  });
+
+  images = bien.images;
+
+  /* DEPOT / HONORAIRES / CHARGES */
+  const extraBoxes = document.querySelector("#moreInfos .infos");
+  extraBoxes.innerHTML = "";
+
+  if(bien.depot){
+    extraBoxes.innerHTML += `
+      <div class="info-box"><strong>Dépôt de garantie</strong><br>${bien.depot}</div>
+    `;
+  }
+
+  if(bien.honoraires){
+    extraBoxes.innerHTML += `
+      <div class="info-box"><strong>Honoraires</strong><br>${bien.honoraires}</div>
+    `;
+  }
+
+  if(bien.charges){
+    extraBoxes.innerHTML += `
+      <div class="info-box"><strong>Charges</strong><br>${bien.charges}</div>
+    `;
+  }
+
+  /* DPE / GES */
+  if(bien.dpe){
+    document.querySelector(".energy").innerHTML = `
+      <div>
+        <strong>DPE</strong><br>
+        <img src="${bien.dpe}" onclick="openImage(this.src)">
+      </div>
+      <div>
+        <strong>GES</strong><br>
+        <img src="${bien.ges}" onclick="openImage(this.src)">
+      </div>
+    `;
+  }
+
+});
+
+/* SLIDER */
+let images = [];
 let currentIndex=0;
-let slider=setInterval(autoSlide,3000);
+let slider;
 
 function autoSlide(){
+ if(images.length < 2) return;
  currentIndex=(currentIndex+1)%images.length;
  document.getElementById("mainImg").src=images[currentIndex];
 }
@@ -277,6 +123,9 @@ function showImage(i){
  document.getElementById("mainImg").src=images[i];
 }
 
+setInterval(autoSlide,3000);
+
+/* ACCORDION */
 function toggleInfos(){
  const el=document.getElementById("moreInfos");
  const icon=document.getElementById("toggleIcon");
@@ -296,6 +145,3 @@ function openImage(src){
 </script>
 
 <script src="components/header.js"></script>
-
-</body>
-</html>
