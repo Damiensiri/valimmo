@@ -141,36 +141,61 @@ h1{
 
 /* HEADER */
 fetch("components/header.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("header").innerHTML = data;
-  });
+.then(res => res.text())
+.then(data => {
+  document.getElementById("header").innerHTML = data;
+});
 
 /* FOOTER */
 fetch("components/footer.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
+.then(res => res.text())
+.then(data => {
+  document.getElementById("footer").innerHTML = data;
+});
+
+/* GOOGLE SHEET URL */
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
+
+/* CSV → JSON */
+function parseCSV(text){
+  const rows = text.split("\n").map(r=>r.trim());
+  const headers = rows[0].split(",");
+
+  return rows.slice(1).map(row=>{
+    const values = row.split(",");
+    let obj = {};
+    headers.forEach((header,i)=>{
+      obj[header.trim()] = values[i] ? values[i].trim() : "";
+    });
+    return obj;
   });
+}
 
-let biens=[];
+let locations = [];
 
-/* DATA */
-fetch("data.json")
-.then(r=>r.json())
-.then(data=>{
-  // 🔥 changement ici
-  biens = data.filter(b => b.visible === "TRUE");
-  display(biens);
+/* LOAD GOOGLE SHEET */
+fetch(sheetURL)
+.then(res=>res.text())
+.then(csv=>{
+  const data = parseCSV(csv);
+
+  // 🔥 On affiche uniquement visible = TRUE
+  locations = data.filter(b => b.visible === "TRUE");
+
+  display(locations);
 });
 
 function display(list){
   const container = document.getElementById("listings");
   container.innerHTML="";
+
   list.forEach(b=>{
+
+    const imageList = b.images ? b.images.split("|") : [];
+
     container.innerHTML+=`
       <div class="card" onclick="location.href='bien.html?id=${b.id}'">
-        <img src="${b.images[0]}">
+        <img src="${imageList[0] || ''}">
         <div class="card-content">
           <h3>${b.titre}</h3>
 
@@ -192,8 +217,8 @@ function filterType(type,el){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   el.classList.add("active");
 
-  if(type==="all") display(biens);
-  else display(biens.filter(b=>b.type===type));
+  if(type==="all") display(locations);
+  else display(locations.filter(b=>b.type===type));
 }
 
 </script>
