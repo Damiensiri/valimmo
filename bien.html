@@ -42,9 +42,7 @@ body{
   font-size:14px;
 }
 
-.back-link img{
-  width:14px;
-}
+.back-link img{ width:14px; }
 
 /* BADGE */
 .badge{
@@ -72,14 +70,10 @@ h1{
   margin-bottom:20px;
 }
 
-.city img{
-  width:16px;
-}
+.city img{ width:16px; }
 
 /* GALLERY */
-.gallery{
-  margin-bottom:25px;
-}
+.gallery{ margin-bottom:25px; }
 
 .main-image img{
   width:100%;
@@ -113,7 +107,7 @@ h1{
   transform:scale(1.05);
 }
 
-/* INFOS */
+/* INFOS → toujours 3 colonnes */
 .infos{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -152,12 +146,13 @@ h1{
   transition:max-height .4s ease;
 }
 
-/* ENERGY */
+/* ENERGY → toujours 2 colonnes */
 .energy{
-  display:flex;
-  justify-content:center;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
   gap:40px;
   margin:25px 0;
+  text-align:center;
 }
 
 .energy img{
@@ -170,20 +165,10 @@ h1{
   transform:scale(1.05);
 }
 
-/* MOBILE */
+/* MOBILE : on garde la structure */
 @media(max-width:768px){
   .main-image img{
     height:300px;
-  }
-
-  .infos{
-    grid-template-columns:1fr;
-  }
-
-  .energy{
-    flex-direction:column;
-    align-items:center;
-    gap:20px;
   }
 }
 </style>
@@ -191,7 +176,6 @@ h1{
 
 <body>
 
-<!-- HEADER -->
 <div id="header"></div>
 
 <div class="container">
@@ -261,21 +245,17 @@ cuisine équipée, deux chambres et salle de bain.
 
 </div>
 
-<!-- FOOTER -->
 <div id="footer"></div>
 
 <script>
-
-/* HEADER / FOOTER */
 fetch("components/header.html")
-  .then(r=>r.text())
-  .then(d=>document.getElementById("header").innerHTML=d);
+.then(r=>r.text())
+.then(d=>document.getElementById("header").innerHTML=d);
 
 fetch("components/footer.html")
-  .then(r=>r.text())
-  .then(d=>document.getElementById("footer").innerHTML=d);
+.then(r=>r.text())
+.then(d=>document.getElementById("footer").innerHTML=d);
 
-/* SLIDER */
 const images=[
  "https://picsum.photos/1200/700?1",
  "https://picsum.photos/1200/700?2",
@@ -313,10 +293,8 @@ function toggleInfos(){
 function openImage(src){
  window.open(src, '_blank');
 }
-
 </script>
 
-<!-- BURGER SUPPORT -->
 <script src="components/header.js"></script>
 
 </body>
