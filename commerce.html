@@ -154,11 +154,12 @@ fetch("components/footer.html")
 
 let commerces=[];
 
-/* DATA (temporaire via data.json) */
+/* DATA */
 fetch("data.json")
 .then(r=>r.json())
 .then(data=>{
-  commerces = data.filter(b=>b.categorie==="commerce" && b.disponible);
+  // 🔥 visible uniquement
+  commerces = data.filter(b => b.visible === "TRUE");
   display(commerces);
 });
 
@@ -166,6 +167,14 @@ function display(list){
   const container = document.getElementById("listings");
   container.innerHTML="";
   list.forEach(b=>{
+
+    let prixAffiche = "";
+    if(b.transaction === "Location"){
+      prixAffiche = b.loyer + " € / mois";
+    } else {
+      prixAffiche = b.prix + " €";
+    }
+
     container.innerHTML+=`
       <div class="card" onclick="location.href='bien.html?id=${b.id}'">
         <img src="${b.images[0]}">
@@ -177,9 +186,7 @@ function display(list){
             ${b.ville}
           </p>
 
-          <p class="price">
-            ${b.transaction==="Location" ? b.loyer+" € / mois" : b.prix+" €"}
-          </p>
+          <p class="price">${prixAffiche}</p>
 
           <div class="hint">Cliquer pour voir le bien</div>
         </div>
