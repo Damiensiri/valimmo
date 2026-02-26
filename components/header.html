@@ -16,12 +16,10 @@ header{
   align-items:center;
 }
 
-/* LOGO */
 .logo img{
   height:75px;
 }
 
-/* BURGER */
 .menu-toggle{
   display:none;
   font-size:26px;
@@ -29,7 +27,6 @@ header{
   cursor:pointer;
 }
 
-/* NAV DESKTOP */
 nav{
   position:relative;
 }
@@ -51,14 +48,8 @@ nav a{
   font-size:16px;
   padding:8px;
   display:block;
-  transition:opacity 0.2s ease;
 }
 
-nav a:hover{
-  opacity:0.85;
-}
-
-/* SUBMENU DESKTOP */
 nav li ul{
   display:none;
   position:absolute;
@@ -84,7 +75,6 @@ nav li:hover > ul{
   display:block;
 }
 
-/* ---------------- MOBILE ---------------- */
 @media(max-width:768px){
 
 .menu-toggle{
@@ -132,7 +122,6 @@ nav li ul{
 
   <nav id="menu">
     <ul>
-
       <li>
         <a href="locations.html">Location</a>
         <ul>
@@ -141,7 +130,6 @@ nav li ul{
           <li><a href="#">Meublés</a></li>
         </ul>
       </li>
-
       <li>
         <a href="#">Vente</a>
         <ul>
@@ -150,20 +138,16 @@ nav li ul{
           <li><a href="#">Commerces</a></li>
         </ul>
       </li>
-
       <li>
         <a href="contact.html">Contact</a>
       </li>
-
     </ul>
   </nav>
 
 </div>
 
 <script>
-/* MENU MOBILE PROPRE */
 document.addEventListener("DOMContentLoaded", function(){
-
   const burger = document.querySelector(".menu-toggle");
   const menu = document.getElementById("menu");
 
@@ -172,7 +156,6 @@ document.addEventListener("DOMContentLoaded", function(){
       menu.classList.toggle("active");
     });
   }
-
 });
 </script>
 
