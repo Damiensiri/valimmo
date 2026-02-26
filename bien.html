@@ -17,7 +17,7 @@ if(!id){
   window.location.href = "index.html";
 }
 
-/* URL SHEET LOCATIONS */
+/* URL SHEET */
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
 
 /* CSV PARSER */
@@ -33,7 +33,6 @@ function parseCSV(text){
       obj[h.trim()] = values[i] ? values[i].trim() : "";
     });
 
-    /* transformation images */
     obj.images = obj.image ? obj.image.split("|") : [];
 
     return obj;
@@ -49,7 +48,7 @@ fetch(sheetURL)
   const bien = data.find(b => b.id == id);
 
   if(!bien){
-    window.location.href = "index.html";
+    document.querySelector(".container").innerHTML = "<h2>Bien introuvable</h2>";
     return;
   }
 
@@ -80,81 +79,33 @@ fetch(sheetURL)
       ? "#2ecc71"
       : "#e74c3c";
 
-  /* PRIX */
-  const priceBox = document.querySelector(".infos .info-box:nth-child(3)");
-
-  if(bien.loyer){
-    priceBox.innerHTML = `<strong>Loyer</strong><br>${bien.loyer} € / mois`;
-  } else if(bien.prix){
-    priceBox.innerHTML = `<strong>Prix</strong><br>${bien.prix} €`;
-  }
-
-  /* SURFACE + TYPE */
-  document.querySelector(".infos .info-box:nth-child(1)").innerHTML =
-    `<strong>Surface</strong><br>${bien.surface} m²`;
-
-  document.querySelector(".infos .info-box:nth-child(2)").innerHTML =
-    `<strong>Type</strong><br>${bien.type}`;
+  /* INFOS */
+  document.querySelector(".infos").innerHTML = `
+    <div class="info-box"><strong>Surface</strong><br>${bien.surface} m²</div>
+    <div class="info-box"><strong>Type</strong><br>${bien.type}</div>
+    <div class="info-box">
+      <strong>${bien.loyer ? "Loyer" : "Prix"}</strong><br>
+      ${bien.loyer ? bien.loyer + " € / mois" : bien.prix + " €"}
+    </div>
+  `;
 
   /* DESCRIPTION */
   document.querySelector("p").innerHTML = bien.description || "";
 
   /* IMAGES */
+  images = bien.images;
+
   const mainImg = document.getElementById("mainImg");
-  const thumbsContainer = document.querySelector(".thumbs");
+  const thumbs = document.querySelector(".thumbs");
 
-  mainImg.src = bien.images[0] || "";
-  thumbsContainer.innerHTML = "";
+  mainImg.src = images[0] || "";
+  thumbs.innerHTML = "";
 
-  bien.images.forEach((img,i)=>{
-    thumbsContainer.innerHTML += `
+  images.forEach((img,i)=>{
+    thumbs.innerHTML += `
       <img src="${img}" onclick="showImage(${i})">
     `;
   });
-
-  images = bien.images;
-
-  /* DEPOT / HONORAIRES / CHARGES */
-  const extraBoxes = document.querySelector("#moreInfos .infos");
-  extraBoxes.innerHTML = "";
-
-  if(bien.depot){
-    extraBoxes.innerHTML += `
-      <div class="info-box">
-        <strong>Dépôt de garantie</strong><br>${bien.depot}
-      </div>
-    `;
-  }
-
-  if(bien.honoraires){
-    extraBoxes.innerHTML += `
-      <div class="info-box">
-        <strong>Honoraires</strong><br>${bien.honoraires}
-      </div>
-    `;
-  }
-
-  if(bien.charges){
-    extraBoxes.innerHTML += `
-      <div class="info-box">
-        <strong>Charges</strong><br>${bien.charges}
-      </div>
-    `;
-  }
-
-  /* DPE / GES */
-  if(bien.dpe && bien.ges){
-    document.querySelector(".energy").innerHTML = `
-      <div>
-        <strong>DPE</strong><br>
-        <img src="${bien.dpe}" onclick="openImage(this.src)">
-      </div>
-      <div>
-        <strong>GES</strong><br>
-        <img src="${bien.ges}" onclick="openImage(this.src)">
-      </div>
-    `;
-  }
 
 });
 
@@ -196,59 +147,3 @@ function openImage(src){
 </script>
 
 <script src="components/header.js"></script>
-  const data = parseCSV(csv);
-  const bien = data.find(b => b.id == id);
-
-  if(!bien){
-    document.querySelector(".container").innerHTML = "<h2>Bien introuvable</h2>";
-    return;
-  }
-
-  /* TITRE */
-  document.querySelector("h1").innerText = bien.titre;
-
-  /* VILLE */
-  document.querySelector(".city").innerHTML = `
-    <img src="assets/loca.svg">
-    ${bien.ville}
-  `;
-
-  /* BADGE */
-  const badge = document.querySelector(".badge");
-  badge.innerText = bien.disponible === "TRUE" ? "Disponible" : "Vendu / Loué";
-  badge.style.background = bien.disponible === "TRUE" ? "#2ecc71" : "#e74c3c";
-
-  /* INFOS */
-  document.querySelector(".infos").innerHTML = `
-    <div class="info-box"><strong>Surface</strong><br>${bien.surface} m²</div>
-    <div class="info-box"><strong>Type</strong><br>${bien.type}</div>
-    <div class="info-box"><strong>Loyer</strong><br>${bien.loyer} €</div>
-  `;
-
-  /* DESCRIPTION */
-  document.querySelector("p").innerHTML = bien.description;
-
-  /* IMAGES */
-  const images = bien.images.split("|");
-  const mainImg = document.getElementById("mainImg");
-  const thumbs = document.querySelector(".thumbs");
-
-  mainImg.src = images[0];
-
-  thumbs.innerHTML = "";
-  images.forEach((img,i)=>{
-    thumbs.innerHTML += `
-      <img src="${img}" onclick="showImage(${i})">
-    `;
-  });
-
-  window.imageList = images;
-
-});
-
-/* SLIDER MANUEL */
-function showImage(i){
-  document.getElementById("mainImg").src = window.imageList[i];
-}
-
-</script>
