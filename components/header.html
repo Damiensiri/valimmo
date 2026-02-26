@@ -16,10 +16,12 @@ header{
   align-items:center;
 }
 
+/* LOGO */
 .logo img{
   height:75px;
 }
 
+/* BURGER */
 .menu-toggle{
   display:none;
   font-size:26px;
@@ -27,6 +29,7 @@ header{
   cursor:pointer;
 }
 
+/* NAV DESKTOP */
 nav{
   position:relative;
 }
@@ -75,6 +78,7 @@ nav li:hover > ul{
   display:block;
 }
 
+/* ---------------- MOBILE ---------------- */
 @media(max-width:768px){
 
 .menu-toggle{
@@ -112,16 +116,20 @@ nav li ul{
 
 <div class="nav">
 
+  <!-- LOGO -->
   <div class="logo">
     <a href="index.html">
       <img src="assets/logo.png" alt="Valimmo">
     </a>
   </div>
 
-  <div class="menu-toggle">☰</div>
+  <!-- BURGER -->
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 
+  <!-- MENU -->
   <nav id="menu">
     <ul>
+
       <li>
         <a href="locations.html">Location</a>
         <ul>
@@ -130,6 +138,7 @@ nav li ul{
           <li><a href="#">Meublés</a></li>
         </ul>
       </li>
+
       <li>
         <a href="#">Vente</a>
         <ul>
@@ -138,25 +147,14 @@ nav li ul{
           <li><a href="#">Commerces</a></li>
         </ul>
       </li>
+
       <li>
         <a href="contact.html">Contact</a>
       </li>
+
     </ul>
   </nav>
 
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  const burger = document.querySelector(".menu-toggle");
-  const menu = document.getElementById("menu");
-
-  if(burger && menu){
-    burger.addEventListener("click", function(){
-      menu.classList.toggle("active");
-    });
-  }
-});
-</script>
 
 </header>
