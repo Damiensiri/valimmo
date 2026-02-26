@@ -13,13 +13,20 @@ body{
   background:#f5f5f5;
 }
 
+/* IMPORTANT : corrige problème menu */
+#header{
+  position:relative;
+  z-index:1000;
+}
+
 /* CONTAINER */
 .container{
   max-width:1100px;
-  margin:auto;
+  margin:30px auto;
   background:#fff;
   padding:20px;
   position:relative;
+  border-radius:8px;
 }
 
 /* BACK */
@@ -35,7 +42,9 @@ body{
   font-size:14px;
 }
 
-.back-link img{width:14px;}
+.back-link img{
+  width:14px;
+}
 
 /* BADGE */
 .badge{
@@ -49,18 +58,28 @@ body{
   font-size:13px;
 }
 
-h1{margin-top:40px;}
+h1{
+  margin-top:40px;
+  margin-bottom:6px;
+}
 
+/* CITY */
 .city{
   display:flex;
+  align-items:center;
   gap:6px;
   color:#666;
-  margin-bottom:15px;
+  margin-bottom:20px;
 }
-.city img{width:16px;}
+
+.city img{
+  width:16px;
+}
 
 /* GALLERY */
-.gallery{margin-bottom:25px;}
+.gallery{
+  margin-bottom:25px;
+}
 
 .main-image img{
   width:100%;
@@ -69,6 +88,7 @@ h1{margin-top:40px;}
   border-radius:8px;
 }
 
+/* THUMBNAILS */
 .thumbs{
   display:flex;
   justify-content:center;
@@ -85,6 +105,7 @@ h1{margin-top:40px;}
   cursor:pointer;
   opacity:.7;
   transition:.2s;
+  flex-shrink:0;
 }
 
 .thumbs img:hover{
@@ -125,7 +146,7 @@ h1{margin-top:40px;}
   font-size:16px;
 }
 
-/* Contenu caché */
+/* CONTENU CACHE */
 .accordion-content{
   max-height:0;
   overflow:hidden;
@@ -140,10 +161,31 @@ h1{margin-top:40px;}
   margin:25px 0;
 }
 
-.energy img{width:110px;}
+.energy img{
+  width:110px;
+  cursor:pointer;
+  transition:.2s;
+}
 
+.energy img:hover{
+  transform:scale(1.05);
+}
+
+/* MOBILE */
 @media(max-width:768px){
-.main-image img{height:300px;}
+  .main-image img{
+    height:300px;
+  }
+
+  .infos{
+    grid-template-columns:1fr;
+  }
+
+  .energy{
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+  }
 }
 </style>
 </head>
@@ -165,7 +207,8 @@ h1{margin-top:40px;}
 <h1>Appartement T3 centre-ville</h1>
 
 <div class="city">
-<img src="assets/loca.svg"> Chaumont
+  <img src="assets/loca.svg">
+  Chaumont
 </div>
 
 <!-- GALLERY -->
@@ -176,10 +219,10 @@ h1{margin-top:40px;}
   </div>
 
   <div class="thumbs">
-    <img src="https://picsum.photos/200/200?1" onclick="showImage(0)">
-    <img src="https://picsum.photos/200/200?2" onclick="showImage(1)">
-    <img src="https://picsum.photos/200/200?3" onclick="showImage(2)">
-    <img src="https://picsum.photos/200/200?4" onclick="showImage(3)">
+    <img src="https://picsum.photos/1200/700?1" onclick="showImage(0)">
+    <img src="https://picsum.photos/1200/700?2" onclick="showImage(1)">
+    <img src="https://picsum.photos/1200/700?3" onclick="showImage(2)">
+    <img src="https://picsum.photos/1200/700?4" onclick="showImage(3)">
   </div>
 
 </div>
@@ -199,29 +242,29 @@ h1{margin-top:40px;}
 
 <div id="moreInfos" class="accordion-content">
 
-<div class="infos">
-  <div class="info-box"><strong>Dépôt de garantie</strong><br>650 €</div>
-  <div class="info-box"><strong>Honoraires</strong><br>420 €</div>
-  <div class="info-box"><strong>Charges</strong><br>50 €</div>
-</div>
+  <div class="infos">
+    <div class="info-box"><strong>Dépôt de garantie</strong><br>650 €</div>
+    <div class="info-box"><strong>Honoraires</strong><br>420 €</div>
+    <div class="info-box"><strong>Charges</strong><br>50 €</div>
+  </div>
 
-<div class="energy">
-  <div>
-    <strong>DPE</strong><br>
-    <img src="assets/dpe-exemple.png">
+  <div class="energy">
+    <div>
+      <strong>DPE</strong><br>
+      <img src="assets/dpe-exemple.png" onclick="openImage(this.src)">
+    </div>
+    <div>
+      <strong>GES</strong><br>
+      <img src="assets/ges-exemple.png" onclick="openImage(this.src)">
+    </div>
   </div>
-  <div>
-    <strong>GES</strong><br>
-    <img src="assets/ges-exemple.png">
-  </div>
-</div>
 
 </div>
 
 <h3>Description</h3>
 <p>
-Bel appartement lumineux situé en centre-ville avec séjour, cuisine équipée,
-deux chambres et salle de bain.
+Bel appartement lumineux situé en centre-ville avec séjour,
+cuisine équipée, deux chambres et salle de bain.
 </p>
 
 </div>
@@ -230,17 +273,17 @@ deux chambres et salle de bain.
 <div id="footer"></div>
 
 <script>
-// HEADER / FOOTER
-fetch("components/header.html").then(r=>r.text()).then(d=>header.innerHTML=d);
-fetch("components/footer.html").then(r=>r.text()).then(d=>footer.innerHTML=d);
 
-// MENU MOBILE
-function toggleMenu(){
- const menu=document.getElementById("menu");
- if(menu) menu.classList.toggle("active");
-}
+/* HEADER / FOOTER */
+fetch("components/header.html")
+  .then(r=>r.text())
+  .then(d=>document.getElementById("header").innerHTML=d);
 
-// SLIDER
+fetch("components/footer.html")
+  .then(r=>r.text())
+  .then(d=>document.getElementById("footer").innerHTML=d);
+
+/* SLIDER */
 const images=[
  "https://picsum.photos/1200/700?1",
  "https://picsum.photos/1200/700?2",
@@ -262,7 +305,7 @@ function showImage(i){
  document.getElementById("mainImg").src=images[i];
 }
 
-// ACCORDION
+/* ACCORDION */
 function toggleInfos(){
  const el=document.getElementById("moreInfos");
  const icon=document.getElementById("toggleIcon");
@@ -275,6 +318,12 @@ function toggleInfos(){
    icon.innerText="−";
  }
 }
+
+/* OUVRIR IMAGE EN GRAND */
+function openImage(src){
+ window.open(src, '_blank');
+}
+
 </script>
 
 </body>
