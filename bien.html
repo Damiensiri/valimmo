@@ -146,7 +146,6 @@ h1{
   font-size:16px;
 }
 
-/* CONTENU CACHE */
 .accordion-content{
   max-height:0;
   overflow:hidden;
@@ -211,9 +210,7 @@ h1{
   Chaumont
 </div>
 
-<!-- GALLERY -->
 <div class="gallery">
-
   <div class="main-image">
     <img id="mainImg" src="https://picsum.photos/1200/700?1">
   </div>
@@ -224,24 +221,20 @@ h1{
     <img src="https://picsum.photos/1200/700?3" onclick="showImage(2)">
     <img src="https://picsum.photos/1200/700?4" onclick="showImage(3)">
   </div>
-
 </div>
 
-<!-- INFOS PRINCIPALES -->
 <div class="infos">
   <div class="info-box"><strong>Surface</strong><br>68 m²</div>
   <div class="info-box"><strong>Type</strong><br>Appartement</div>
   <div class="info-box"><strong>Loyer</strong><br>650 €</div>
 </div>
 
-<!-- ACCORDION -->
 <div class="accordion-toggle" onclick="toggleInfos()">
   <span id="toggleIcon" class="toggle-icon">+</span>
   Charges & DPE
 </div>
 
 <div id="moreInfos" class="accordion-content">
-
   <div class="infos">
     <div class="info-box"><strong>Dépôt de garantie</strong><br>650 €</div>
     <div class="info-box"><strong>Honoraires</strong><br>420 €</div>
@@ -258,7 +251,6 @@ h1{
       <img src="assets/ges-exemple.png" onclick="openImage(this.src)">
     </div>
   </div>
-
 </div>
 
 <h3>Description</h3>
@@ -305,7 +297,6 @@ function showImage(i){
  document.getElementById("mainImg").src=images[i];
 }
 
-/* ACCORDION */
 function toggleInfos(){
  const el=document.getElementById("moreInfos");
  const icon=document.getElementById("toggleIcon");
@@ -319,12 +310,14 @@ function toggleInfos(){
  }
 }
 
-/* OUVRIR IMAGE EN GRAND */
 function openImage(src){
  window.open(src, '_blank');
 }
 
 </script>
+
+<!-- BURGER SUPPORT -->
+<script src="components/header.js"></script>
 
 </body>
 </html>
