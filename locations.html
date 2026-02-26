@@ -128,7 +128,6 @@ h1{
 
 <h1>Nos locations</h1>
 
-<!-- TABS -->
 <div class="tabs">
   <div class="tab active" onclick="filterType('all',this)">Tous</div>
   <div class="tab" onclick="filterType('Appartement',this)">Appartements</div>
@@ -158,7 +157,6 @@ fetch("components/footer.html")
 
 let biens=[];
 
-/* LOAD DATA */
 fetch("data.json")
 .then(r=>r.json())
 .then(data=>{
@@ -166,7 +164,6 @@ fetch("data.json")
   display(biens);
 });
 
-/* DISPLAY */
 function display(list){
   const container = document.getElementById("listings");
   container.innerHTML="";
@@ -191,7 +188,6 @@ function display(list){
   });
 }
 
-/* FILTER */
 function filterType(type,el){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   el.classList.add("active");
@@ -201,6 +197,9 @@ function filterType(type,el){
 }
 
 </script>
+
+<!-- BURGER SUPPORT -->
+<script src="components/header.js"></script>
 
 </body>
 </html>
