@@ -1,4 +1,5 @@
 <script>
+
 /* HEADER / FOOTER */
 fetch("components/header.html")
 .then(r=>r.text())
@@ -11,15 +12,30 @@ fetch("components/footer.html")
 /* PARAMS */
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
-const cat = params.get("cat") || "locations"; // fallback
+
+/* Sécurité ID */
+if(!id){
+  window.location.href = "index.html";
+}
 
 /* LOAD DATA */
-fetch("data.json") // plus tard remplacé par feuille dédiée
+fetch("data.json")
 .then(r=>r.json())
 .then(data=>{
 
   const bien = data.find(b => b.id == id);
-  if(!bien) return;
+
+  /* Sécurité si bien introuvable */
+  if(!bien){
+    window.location.href = "index.html";
+    return;
+  }
+
+  /* 🔒 Sécurité visibilité */
+  if(bien.visible !== "TRUE"){
+    window.location.href = "index.html";
+    return;
+  }
 
   /* TITRE */
   document.querySelector("h1").innerText = bien.titre;
@@ -32,14 +48,21 @@ fetch("data.json") // plus tard remplacé par feuille dédiée
 
   /* BADGE */
   const badge = document.querySelector(".badge");
-  badge.innerText = bien.disponible ? "Disponible" : "Vendu / Loué";
-  badge.style.background = bien.disponible ? "#2ecc71" : "#e74c3c";
+  badge.innerText = bien.disponible === "TRUE"
+    ? "Disponible"
+    : "Vendu / Loué";
+
+  badge.style.background =
+    bien.disponible === "TRUE"
+    ? "#2ecc71"
+    : "#e74c3c";
 
   /* PRIX */
   const priceBox = document.querySelector(".infos .info-box:nth-child(3)");
+
   if(bien.loyer){
     priceBox.innerHTML = `<strong>Loyer</strong><br>${bien.loyer} € / mois`;
-  } else {
+  } else if(bien.prix){
     priceBox.innerHTML = `<strong>Prix</strong><br>${bien.prix} €`;
   }
 
@@ -91,7 +114,7 @@ fetch("data.json") // plus tard remplacé par feuille dédiée
   }
 
   /* DPE / GES */
-  if(bien.dpe){
+  if(bien.dpe && bien.ges){
     document.querySelector(".energy").innerHTML = `
       <div>
         <strong>DPE</strong><br>
@@ -109,7 +132,6 @@ fetch("data.json") // plus tard remplacé par feuille dédiée
 /* SLIDER */
 let images = [];
 let currentIndex=0;
-let slider;
 
 function autoSlide(){
  if(images.length < 2) return;
@@ -117,13 +139,12 @@ function autoSlide(){
  document.getElementById("mainImg").src=images[currentIndex];
 }
 
+setInterval(autoSlide,3000);
+
 function showImage(i){
- clearInterval(slider);
  currentIndex=i;
  document.getElementById("mainImg").src=images[i];
 }
-
-setInterval(autoSlide,3000);
 
 /* ACCORDION */
 function toggleInfos(){
@@ -142,6 +163,7 @@ function toggleInfos(){
 function openImage(src){
  window.open(src, '_blank');
 }
+
 </script>
 
 <script src="components/header.js"></script>
