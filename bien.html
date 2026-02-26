@@ -1,13 +1,21 @@
 <script>
 
+document.addEventListener("DOMContentLoaded", function(){
+
 /* HEADER / FOOTER */
 fetch("components/header.html")
 .then(r=>r.text())
-.then(d=>document.getElementById("header").innerHTML=d);
+.then(d=>{
+  const header = document.getElementById("header");
+  if(header) header.innerHTML = d;
+});
 
 fetch("components/footer.html")
 .then(r=>r.text())
-.then(d=>document.getElementById("footer").innerHTML=d);
+.then(d=>{
+  const footer = document.getElementById("footer");
+  if(footer) footer.innerHTML = d;
+});
 
 /* PARAMS */
 const params = new URLSearchParams(window.location.search);
@@ -35,6 +43,123 @@ function parseCSV(text){
 
     obj.images = obj.image ? obj.image.split("|") : [];
 
+    return obj;
+  });
+}
+
+/* LOAD DATA */
+fetch(sheetURL)
+.then(r=>r.text())
+.then(csv=>{
+
+  const data = parseCSV(csv);
+  const bien = data.find(b => b.id == id);
+
+  if(!bien){
+    document.querySelector(".container").innerHTML = "<h2>Bien introuvable</h2>";
+    return;
+  }
+
+  if(bien.visible !== "TRUE"){
+    window.location.href = "index.html";
+    return;
+  }
+
+  const h1 = document.querySelector("h1");
+  if(h1) h1.innerText = bien.titre;
+
+  const city = document.querySelector(".city");
+  if(city){
+    city.innerHTML = `
+      <img src="assets/loca.svg">
+      ${bien.ville}
+    `;
+  }
+
+  const badge = document.querySelector(".badge");
+  if(badge){
+    badge.innerText =
+      bien.disponible === "TRUE"
+        ? "Disponible"
+        : "Vendu / Loué";
+
+    badge.style.background =
+      bien.disponible === "TRUE"
+        ? "#2ecc71"
+        : "#e74c3c";
+  }
+
+  const infos = document.querySelector(".infos");
+  if(infos){
+    infos.innerHTML = `
+      <div class="info-box"><strong>Surface</strong><br>${bien.surface} m²</div>
+      <div class="info-box"><strong>Type</strong><br>${bien.type}</div>
+      <div class="info-box">
+        <strong>${bien.loyer ? "Loyer" : "Prix"}</strong><br>
+        ${bien.loyer ? bien.loyer + " € / mois" : bien.prix + " €"}
+      </div>
+    `;
+  }
+
+  const desc = document.querySelector("p");
+  if(desc) desc.innerHTML = bien.description || "";
+
+  images = bien.images;
+
+  const mainImg = document.getElementById("mainImg");
+  const thumbs = document.querySelector(".thumbs");
+
+  if(mainImg) mainImg.src = images[0] || "";
+  if(thumbs){
+    thumbs.innerHTML = "";
+    images.forEach((img,i)=>{
+      thumbs.innerHTML += `
+        <img src="${img}" onclick="showImage(${i})">
+      `;
+    });
+  }
+
+});
+
+});
+
+/* SLIDER */
+let images = [];
+let currentIndex = 0;
+
+function autoSlide(){
+  if(images.length < 2) return;
+  currentIndex = (currentIndex + 1) % images.length;
+  document.getElementById("mainImg").src = images[currentIndex];
+}
+
+setInterval(autoSlide,3000);
+
+function showImage(i){
+  currentIndex = i;
+  document.getElementById("mainImg").src = images[i];
+}
+
+function toggleInfos(){
+  const el = document.getElementById("moreInfos");
+  const icon = document.getElementById("toggleIcon");
+
+  if(el.style.maxHeight){
+    el.style.maxHeight = null;
+    icon.innerText = "+";
+  } else {
+    el.style.maxHeight = el.scrollHeight + "px";
+    icon.innerText = "−";
+  }
+}
+
+function openImage(src){
+  window.open(src, "_blank");
+}
+
+</script>
+
+<script src="components/header.js"></script>
     return obj;
   });
 }
