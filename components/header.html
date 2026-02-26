@@ -1,8 +1,11 @@
 <header>
+
 <style>
 header{
   background:#0a66c2;
   padding:15px 20px;
+  position:relative;
+  z-index:2000;
 }
 
 .nav{
@@ -27,6 +30,10 @@ header{
 }
 
 /* NAV DESKTOP */
+nav{
+  position:relative;
+}
+
 nav ul{
   list-style:none;
   display:flex;
@@ -73,7 +80,7 @@ nav li ul a:hover{
   background:#f2f2f2;
 }
 
-nav li:hover ul{
+nav li:hover > ul{
   display:block;
 }
 
@@ -101,13 +108,11 @@ nav ul{
   gap:18px;
 }
 
-/* Texte mobile plus lisible */
 nav a{
   text-align:center;
   font-size:18px;
 }
 
-/* On supprime totalement les sous-menus en mobile */
 nav li ul{
   display:none !important;
 }
@@ -117,17 +122,14 @@ nav li ul{
 
 <div class="nav">
 
-  <!-- LOGO -->
   <div class="logo">
     <a href="index.html">
       <img src="assets/logo.png" alt="Valimmo">
     </a>
   </div>
 
-  <!-- BURGER -->
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <div class="menu-toggle">☰</div>
 
-  <!-- MENU -->
   <nav id="menu">
     <ul>
 
@@ -157,5 +159,21 @@ nav li ul{
   </nav>
 
 </div>
+
+<script>
+/* MENU MOBILE PROPRE */
+document.addEventListener("DOMContentLoaded", function(){
+
+  const burger = document.querySelector(".menu-toggle");
+  const menu = document.getElementById("menu");
+
+  if(burger && menu){
+    burger.addEventListener("click", function(){
+      menu.classList.toggle("active");
+    });
+  }
+
+});
+</script>
 
 </header>
