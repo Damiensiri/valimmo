@@ -153,180 +153,14 @@ fetch("components/footer.html")
     document.getElementById("footer").innerHTML = data;
   });
 
-let locations=[];
-
-/* DATA (temporaire data.json, remplacé plus tard par feuille Locations) */
-fetch("data.json")
-.then(r=>r.json())
-.then(data=>{
-  locations = data.filter(b=>b.disponible);
-  display(locations);
-});
-
-function display(list){
-  const container = document.getElementById("listings");
-  container.innerHTML="";
-  list.forEach(b=>{
-    container.innerHTML+=`
-      <div class="card" onclick="location.href='bien.html?id=${b.id}'">
-        <img src="${b.images[0]}">
-        <div class="card-content">
-          <h3>${b.titre}</h3>
-
-          <p class="city">
-            <img src="assets/loca.svg">
-            ${b.ville}
-          </p>
-
-          <p class="price">${b.loyer} € / mois</p>
-
-          <div class="hint">Cliquer pour voir le bien</div>
-        </div>
-      </div>
-    `;
-  });
-}
-
-function filterType(type,el){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  el.classList.add("active");
-
-  if(type==="all") display(locations);
-  else display(locations.filter(b=>b.type===type));
-}
-
-</script>
-
-<script src="components/header.js"></script>
-
-</body>
-</html>  max-width:600px;
-  margin:0 auto 20px;
-}
-
-.tab{
-  padding:10px 0;
-  cursor:pointer;
-  font-size:16px;
-  color:#555;
-  position:relative;
-}
-
-.tab.active{
-  color:#0a66c2;
-  font-weight:bold;
-}
-
-.tab.active::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-1px;
-  width:100%;
-  height:2px;
-  background:#0a66c2;
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-  max-width:1200px;
-  margin:auto;
-  padding:20px;
-}
-
-/* CARD */
-.card{
-  background:#fff;
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
-  transition:transform .2s;
-  cursor:pointer;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-}
-
-.card img{
-  width:100%;
-  height:200px;
-  object-fit:cover;
-}
-
-/* CONTENT */
-.card-content{
-  padding:15px;
-}
-
-.price{
-  font-weight:bold;
-  color:#0a66c2;
-}
-
-/* CITY */
-.city{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  color:#555;
-  margin-bottom:6px;
-}
-
-.city img{
-  width:16px;
-  height:16px;
-}
-
-.hint{
-  color:#777;
-  font-size:12px;
-}
-</style>
-</head>
-
-<body>
-
-<div id="header"></div>
-
-<h1>Nos locations</h1>
-
-<div class="tabs">
-  <div class="tab active" onclick="filterType('all',this)">Tous</div>
-  <div class="tab" onclick="filterType('Appartement',this)">Appartements</div>
-  <div class="tab" onclick="filterType('Maison',this)">Maisons</div>
-  <div class="tab" onclick="filterType('Meublé',this)">Meublés</div>
-</div>
-
-<div class="grid" id="listings"></div>
-
-<div id="footer"></div>
-
-<script>
-
-/* LOAD HEADER */
-fetch("components/header.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("header").innerHTML = data;
-  });
-
-/* LOAD FOOTER */
-fetch("components/footer.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-  });
-
 let biens=[];
 
+/* DATA */
 fetch("data.json")
 .then(r=>r.json())
 .then(data=>{
-  biens=data.filter(b=>b.disponible);
+  // 🔥 changement ici
+  biens = data.filter(b => b.visible === "TRUE");
   display(biens);
 });
 
@@ -364,7 +198,6 @@ function filterType(type,el){
 
 </script>
 
-<!-- BURGER SUPPORT -->
 <script src="components/header.js"></script>
 
 </body>
