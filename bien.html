@@ -91,13 +91,6 @@ h1{
   border-radius:6px;
   cursor:pointer;
   opacity:.7;
-  transition:.2s;
-  flex-shrink:0;
-}
-
-.thumbs img:hover{
-  opacity:1;
-  transform:scale(1.05);
 }
 
 .infos{
@@ -126,17 +119,6 @@ h1{
   gap:8px;
 }
 
-.toggle-icon{
-  font-weight:bold;
-  font-size:16px;
-}
-
-.accordion-content{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .4s ease;
-}
-
 .energy{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -148,11 +130,10 @@ h1{
 .energy img{
   width:110px;
   cursor:pointer;
-  transition:.2s;
 }
 
-.energy img:hover{
-  transform:scale(1.05);
+#moreInfos{
+  display:none;
 }
 
 @media(max-width:768px){
@@ -190,11 +171,11 @@ h1{
 <div class="infos"></div>
 
 <div class="accordion-toggle" onclick="toggleInfos()">
-  <span id="toggleIcon" class="toggle-icon">+</span>
+  <span id="toggleIcon">+</span>
   Charges & DPE
 </div>
 
-<div id="moreInfos" class="accordion-content">
+<div id="moreInfos">
   <div class="infos extra-infos"></div>
   <div class="energy"></div>
 </div>
@@ -209,7 +190,6 @@ h1{
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-/* HEADER / FOOTER */
 fetch("components/header.html")
 .then(r=>r.text())
 .then(d=>document.getElementById("header").innerHTML=d);
@@ -218,7 +198,6 @@ fetch("components/footer.html")
 .then(r=>r.text())
 .then(d=>document.getElementById("footer").innerHTML=d);
 
-/* GET ID */
 const params=new URLSearchParams(window.location.search);
 const id=params.get("id");
 
@@ -227,10 +206,8 @@ if(!id){
   return;
 }
 
-/* TA SHEET LOCATIONS */
 const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
 
-/* CSV PARSER */
 function parseCSV(text){
   const rows=text.trim().split("\n");
   const headers=rows[0].split(",");
@@ -245,7 +222,6 @@ function parseCSV(text){
   });
 }
 
-/* LOAD DATA */
 fetch(sheetURL)
 .then(r=>r.text())
 .then(csv=>{
@@ -258,21 +234,13 @@ fetch(sheetURL)
     return;
   }
 
-  /* TITRE */
   document.querySelector("h1").innerText=bien.titre;
+  document.querySelector(".city").innerHTML=`<img src="assets/loca.svg">${bien.ville}`;
 
-  /* VILLE */
-  document.querySelector(".city").innerHTML=`
-    <img src="assets/loca.svg">
-    ${bien.ville}
-  `;
-
-  /* BADGE */
   const badge=document.querySelector(".badge");
   badge.innerText=bien.disponible==="TRUE"?"Disponible":"Vendu / Loué";
   badge.style.background=bien.disponible==="TRUE"?"#2ecc71":"#e74c3c";
 
-  /* INFOS */
   document.querySelector(".infos").innerHTML=`
     <div class="info-box"><strong>Surface</strong><br>${bien.surface} m²</div>
     <div class="info-box"><strong>Type</strong><br>${bien.type}</div>
@@ -282,10 +250,8 @@ fetch(sheetURL)
     </div>
   `;
 
-  /* DESCRIPTION */
   document.querySelector("p").innerHTML=bien.description||"";
 
-  /* IMAGES */
   images=bien.images;
   const mainImg=document.getElementById("mainImg");
   const thumbs=document.querySelector(".thumbs");
@@ -296,18 +262,11 @@ fetch(sheetURL)
     thumbs.innerHTML+=`<img src="${img}" onclick="showImage(${i})">`;
   });
 
-  /* EXTRA INFOS */
   const extra=document.querySelector(".extra-infos");
   extra.innerHTML="";
-  if(bien.depot){
-    extra.innerHTML+=`<div class="info-box"><strong>Dépôt</strong><br>${bien.depot}</div>`;
-  }
-  if(bien.honoraires){
-    extra.innerHTML+=`<div class="info-box"><strong>Honoraires</strong><br>${bien.honoraires}</div>`;
-  }
-  if(bien.charges){
-    extra.innerHTML+=`<div class="info-box"><strong>Charges</strong><br>${bien.charges}</div>`;
-  }
+  if(bien.depot) extra.innerHTML+=`<div class="info-box"><strong>Dépôt</strong><br>${bien.depot}</div>`;
+  if(bien.honoraires) extra.innerHTML+=`<div class="info-box"><strong>Honoraires</strong><br>${bien.honoraires}</div>`;
+  if(bien.charges) extra.innerHTML+=`<div class="info-box"><strong>Charges</strong><br>${bien.charges}</div>`;
 
   if(bien.dpe && bien.ges){
     document.querySelector(".energy").innerHTML=`
@@ -315,6 +274,8 @@ fetch(sheetURL)
       <div><strong>GES</strong><br><img src="${bien.ges}" onclick="openImage(this.src)"></div>
     `;
   }
+
+});
 
 });
 
@@ -329,11 +290,12 @@ function showImage(i){
 function toggleInfos(){
   const el=document.getElementById("moreInfos");
   const icon=document.getElementById("toggleIcon");
-  if(el.style.maxHeight){
-    el.style.maxHeight=null;
+
+  if(el.style.display==="block"){
+    el.style.display="none";
     icon.innerText="+";
   }else{
-    el.style.maxHeight=el.scrollHeight+"px";
+    el.style.display="block";
     icon.innerText="−";
   }
 }
@@ -341,8 +303,6 @@ function toggleInfos(){
 function openImage(src){
   window.open(src,"_blank");
 }
-
-});
 </script>
 
 <script src="components/header.js"></script>
