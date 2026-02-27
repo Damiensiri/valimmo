@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bien</title>
 
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 
@@ -136,6 +138,11 @@ h1{
   display:none;
 }
 
+/* 🔥 Important pour retours à la ligne dans description */
+p{
+  white-space:pre-line;
+}
+
 @media(max-width:768px){
   .main-image img{
     height:300px;
@@ -208,56 +215,45 @@ if(!id){
 
 const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
 
-/* ✅ PARSEUR ROBUSTE (gère les virgules dans description) */
-function parseCSV(text){
-  const rows = text.trim().split("\n");
-  const headers = rows[0].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
-    .map(h => h.replace(/^"|"$/g,"").trim());
-
-  return rows.slice(1).map(row=>{
-    const values = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-    let obj={};
-
-    headers.forEach((h,i)=>{
-      obj[h] = values[i]
-        ? values[i].replace(/^"|"$/g,"").trim()
-        : "";
-    });
-
-    obj.images = obj.image ? obj.image.split("|") : [];
-
-    return obj;
-  });
-}
-
 fetch(sheetURL)
-.then(r=>r.text())
+.then(res=>res.text())
 .then(csv=>{
 
-  const data=parseCSV(csv);
-  const bien=data.find(b=>b.id==id);
+  const result = Papa.parse(csv,{
+    header:true,
+    skipEmptyLines:true
+  });
+
+  const data = result.data;
+  const bien = data.find(b=>b.id==id);
 
   if(!bien){
     document.querySelector(".container").innerHTML="<h2>Bien introuvable</h2>";
     return;
   }
 
-  document.querySelector("h1").innerText=bien.titre;
-  document.querySelector(".city").innerHTML=`<img src="assets/loca.svg">${bien.ville}`;
+  // transformation image (colonne image sans S)
+  bien.images = bien.image ? bien.image.split("|") : [];
+
+  document.querySelector("h1").innerText=bien.titre||"";
+
+  document.querySelector(".city").innerHTML=
+    `<img src="assets/loca.svg">${bien.ville||""}`;
 
   const badge=document.querySelector(".badge");
   badge.innerText=bien.disponible==="TRUE"?"Disponible":"Vendu / Loué";
   badge.style.background=bien.disponible==="TRUE"?"#2ecc71":"#e74c3c";
 
   document.querySelector(".infos").innerHTML=`
-    <div class="info-box"><strong>Surface</strong><br>${bien.surface} m²</div>
-    <div class="info-box"><strong>Type</strong><br>${bien.type}</div>
+    <div class="info-box"><strong>Surface</strong><br>${bien.surface||""} m²</div>
+    <div class="info-box"><strong>Type</strong><br>${bien.type||""}</div>
     <div class="info-box">
       <strong>${bien.loyer?"Loyer":"Prix"}</strong><br>
-      ${bien.loyer?bien.loyer+" € / mois":bien.prix+" €"}
+      ${bien.loyer?bien.loyer+" € / mois":(bien.prix||"")+" €"}
     </div>
   `;
 
+  /* 🔥 HTML autorisé + retours ligne OK */
   document.querySelector("p").innerHTML=bien.description||"";
 
   images=bien.images;
