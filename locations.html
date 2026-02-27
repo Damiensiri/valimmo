@@ -67,6 +67,7 @@ h1{
 }
 
 .card{
+  position:relative; /* nécessaire pour le badge */
   background:#fff;
   border-radius:12px;
   overflow:hidden;
@@ -110,6 +111,22 @@ h1{
 .hint{
   color:#777;
   font-size:12px;
+}
+
+/* ===== BADGE LOUÉ ===== */
+
+.status-badge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#e74c3c;
+  color:#fff;
+  padding:6px 12px;
+  font-size:12px;
+  border-radius:20px;
+  font-weight:bold;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  z-index:2;
 }
 </style>
 </head>
@@ -164,7 +181,7 @@ fetch(sheetURL)
 
   const data = result.data;
 
-  // visible = TRUE uniquement
+  // visible = TRUE uniquement + tri dispo en premier
   locations = data
     .filter(b => b.visible === "TRUE")
     .sort((a,b)=>{
@@ -185,7 +202,11 @@ function display(list){
 
     container.innerHTML+=`
       <div class="card" onclick="location.href='bien.html?id=${b.id}'">
+        
+        ${b.disponible !== "TRUE" ? `<div class="status-badge">Loué</div>` : ""}
+
         <img src="${imageList[0] || ''}">
+        
         <div class="card-content">
           <h3>${b.titre || ''}</h3>
 
