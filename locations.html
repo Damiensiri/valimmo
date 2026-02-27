@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Locations</title>
 
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 
@@ -148,28 +150,19 @@ fetch("components/footer.html")
 /* GOOGLE SHEET */
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
 
-/* CSV PARSER */
-function parseCSV(text){
-  const rows = text.trim().split("\n");
-  const headers = rows[0].split(",");
-
-  return rows.slice(1).map(row=>{
-    const values = row.split(",");
-    let obj = {};
-    headers.forEach((h,i)=>{
-      obj[h.trim()] = values[i] ? values[i].trim() : "";
-    });
-    return obj;
-  });
-}
-
 let locations = [];
 
-/* LOAD DATA */
+/* LOAD DATA AVEC PAPAPARSE */
 fetch(sheetURL)
 .then(res=>res.text())
 .then(csv=>{
-  const data = parseCSV(csv);
+
+  const result = Papa.parse(csv,{
+    header:true,
+    skipEmptyLines:true
+  });
+
+  const data = result.data;
 
   // visible = TRUE uniquement
   locations = data.filter(b => b.visible === "TRUE");
@@ -183,21 +176,21 @@ function display(list){
 
   list.forEach(b=>{
 
-    // 🔥 ON UTILISE image (sans S)
+    // image (sans S)
     const imageList = b.image ? b.image.split("|") : [];
 
     container.innerHTML+=`
       <div class="card" onclick="location.href='bien.html?id=${b.id}'">
         <img src="${imageList[0] || ''}">
         <div class="card-content">
-          <h3>${b.titre}</h3>
+          <h3>${b.titre || ''}</h3>
 
           <p class="city">
             <img src="assets/loca.svg">
-            ${b.ville}
+            ${b.ville || ''}
           </p>
 
-          <p class="price">${b.loyer} € / mois</p>
+          <p class="price">${b.loyer || ''} € / mois</p>
 
           <div class="hint">Cliquer pour voir le bien</div>
         </div>
