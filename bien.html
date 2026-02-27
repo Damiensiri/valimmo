@@ -69,13 +69,27 @@ h1{
 
 .city img{ width:16px; }
 
+/* ===== GALERIE PREMIUM ===== */
+
 .gallery{ margin-bottom:25px; }
 
-.main-image img{
-  width:100%;
-  height:450px;
-  object-fit:cover;
+.main-image{
+  overflow:hidden;
   border-radius:8px;
+  position:relative;
+  height:450px;
+}
+
+.slider-track{
+  display:flex;
+  height:100%;
+  transition:transform 0.8s cubic-bezier(.77,0,.18,1);
+}
+
+.slider-track img{
+  width:100%;
+  flex-shrink:0;
+  object-fit:cover;
   cursor:pointer;
 }
 
@@ -95,6 +109,8 @@ h1{
   cursor:pointer;
   opacity:.7;
 }
+
+/* ===== INFOS ===== */
 
 .infos{
   display:grid;
@@ -143,7 +159,8 @@ p{
   white-space:pre-line;
 }
 
-/* 🔥 MODAL */
+/* ===== MODAL ===== */
+
 #imageModal{
   display:none;
   position:fixed;
@@ -172,7 +189,7 @@ p{
 }
 
 @media(max-width:768px){
-  .main-image img{
+  .main-image{
     height:300px;
   }
 }
@@ -196,9 +213,10 @@ p{
 
 <div class="city"></div>
 
+<!-- GALERIE -->
 <div class="gallery">
   <div class="main-image">
-    <img id="mainImg" src="" onclick="openModal()">
+    <div class="slider-track" id="sliderTrack"></div>
   </div>
   <div class="thumbs"></div>
 </div>
@@ -225,7 +243,7 @@ p{
 <!-- MODAL -->
 <div id="imageModal">
   <span class="closeModal" onclick="closeModal()">×</span>
-  <img id="modalImg" src="">
+  <img id="modalImg">
 </div>
 
 <script>
@@ -258,15 +276,16 @@ fetch(sheetURL)
     skipEmptyLines:true
   });
 
-  const data = result.data;
-  const bien = data.find(b=>b.id==id);
+  const data=result.data;
+  const bien=data.find(b=>b.id==id);
 
   if(!bien){
     document.querySelector(".container").innerHTML="<h2>Bien introuvable</h2>";
     return;
   }
 
-  bien.images = bien.image ? bien.image.split("|") : [];
+  bien.images=bien.image?bien.image.split("|"):[];
+  initSlider(bien.images);
 
   document.querySelector("h1").innerText=bien.titre||"";
   document.querySelector(".city").innerHTML=`<img src="assets/loca.svg">${bien.ville||""}`;
@@ -286,55 +305,90 @@ fetch(sheetURL)
 
   document.querySelector("p").innerHTML=bien.description||"";
 
-  images=bien.images;
-  currentIndex=0;
-  updateImage();
+  const extra=document.querySelector(".extra-infos");
+  extra.innerHTML="";
+  if(bien.depot) extra.innerHTML+=`<div class="info-box"><strong>Dépôt</strong><br>${bien.depot}</div>`;
+  if(bien.honoraires) extra.innerHTML+=`<div class="info-box"><strong>Honoraires</strong><br>${bien.honoraires}</div>`;
+  if(bien.charges) extra.innerHTML+=`<div class="info-box"><strong>Charges</strong><br>${bien.charges}</div>`;
 
-  const thumbs=document.querySelector(".thumbs");
-  thumbs.innerHTML="";
-  images.forEach((img,i)=>{
-    thumbs.innerHTML+=`<img src="${img}" onclick="manualSelect(${i})">`;
+  if(bien.dpe && bien.ges){
+    document.querySelector(".energy").innerHTML=`
+      <div><strong>DPE</strong><br><img src="${bien.dpe}" onclick="openModalSpecific('${bien.dpe}')"></div>
+      <div><strong>GES</strong><br><img src="${bien.ges}" onclick="openModalSpecific('${bien.ges}')"></div>
+    `;
+  }
+
+});
+});
+
+/* ===== SLIDER PREMIUM ===== */
+
+let images=[];
+let currentIndex=1;
+let sliderInterval=null;
+let isTransitioning=false;
+
+function initSlider(imgArray){
+  images=imgArray;
+  const track=document.getElementById("sliderTrack");
+  track.innerHTML="";
+
+  if(images.length===0) return;
+
+  const extended=[images[images.length-1],...images,images[0]];
+
+  extended.forEach(src=>{
+    const img=document.createElement("img");
+    img.src=src;
+    img.onclick=openModal;
+    track.appendChild(img);
   });
 
+  track.style.transform=`translateX(-100%)`;
   startSlider();
-
-});
-
-});
-
-/* SLIDER */
-let images=[];
-let currentIndex=0;
-let sliderInterval=null;
-
-function updateImage(){
-  document.getElementById("mainImg").src=images[currentIndex]||"";
 }
 
 function startSlider(){
-  sliderInterval=setInterval(()=>{
-    currentIndex=(currentIndex+1)%images.length;
-    updateImage();
-  },4000);
+  stopSlider();
+  sliderInterval=setInterval(()=>nextSlide(),4000);
 }
 
 function stopSlider(){
   clearInterval(sliderInterval);
 }
 
-function manualSelect(i){
-  stopSlider();
-  currentIndex=i;
-  updateImage();
+function nextSlide(){
+  if(isTransitioning) return;
+  isTransitioning=true;
+  currentIndex++;
+  moveSlider();
 }
 
-/* MODAL */
+function moveSlider(){
+  const track=document.getElementById("sliderTrack");
+  track.style.transition="transform 0.8s cubic-bezier(.77,0,.18,1)";
+  track.style.transform=`translateX(-${currentIndex*100}%)`;
+
+  track.addEventListener("transitionend",()=>{
+    if(currentIndex===images.length+1){
+      track.style.transition="none";
+      currentIndex=1;
+      track.style.transform=`translateX(-100%)`;
+    }
+    isTransitioning=false;
+  },{once:true});
+}
+
 function openModal(){
   stopSlider();
-  const modal=document.getElementById("imageModal");
-  const modalImg=document.getElementById("modalImg");
-  modalImg.src=images[currentIndex];
-  modal.style.display="flex";
+  document.getElementById("modalImg").src=images[currentIndex-1];
+  document.getElementById("imageModal").style.display="flex";
+}
+
+function openModalSpecific(src){
+  stopSlider();
+  document.getElementById("modalImg").src=src;
+  document.getElementById("imageModal").style.display="flex";
 }
 
 function closeModal(){
@@ -342,11 +396,9 @@ function closeModal(){
   startSlider();
 }
 
-/* ACCORDION */
 function toggleInfos(){
   const el=document.getElementById("moreInfos");
   const icon=document.getElementById("toggleIcon");
-
   if(el.style.display==="block"){
     el.style.display="none";
     icon.innerText="+";
