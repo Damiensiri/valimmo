@@ -208,16 +208,24 @@ if(!id){
 
 const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
 
+/* ✅ PARSEUR ROBUSTE (gère les virgules dans description) */
 function parseCSV(text){
-  const rows=text.trim().split("\n");
-  const headers=rows[0].split(",");
+  const rows = text.trim().split("\n");
+  const headers = rows[0].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
+    .map(h => h.replace(/^"|"$/g,"").trim());
+
   return rows.slice(1).map(row=>{
-    const values=row.split(",");
+    const values = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
     let obj={};
+
     headers.forEach((h,i)=>{
-      obj[h.trim()]=values[i]?values[i].trim():"";
+      obj[h] = values[i]
+        ? values[i].replace(/^"|"$/g,"").trim()
+        : "";
     });
-    obj.images=obj.image?obj.image.split("|"):[];
+
+    obj.images = obj.image ? obj.image.split("|") : [];
+
     return obj;
   });
 }
