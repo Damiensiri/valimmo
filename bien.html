@@ -9,13 +9,8 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-
-body{
-  font-family:Arial,sans-serif;
-  background:#f5f5f5;
-}
-
-#header{ position:relative; z-index:1000; }
+body{font-family:Arial,sans-serif;background:#f5f5f5;}
+#header{position:relative;z-index:1000;}
 
 .container{
   max-width:1100px;
@@ -27,174 +22,116 @@ body{
 }
 
 .back-link{
-  position:absolute;
-  top:15px;
-  left:15px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  text-decoration:none;
-  color:#0a66c2;
-  font-size:14px;
+  position:absolute;top:15px;left:15px;
+  display:flex;align-items:center;gap:6px;
+  text-decoration:none;color:#0a66c2;font-size:14px;
 }
-
-.back-link img{ width:14px; }
+.back-link img{width:14px;}
 
 .badge{
-  position:absolute;
-  top:15px;
-  right:15px;
-  background:#2ecc71;
-  color:#fff;
-  padding:6px 12px;
-  border-radius:20px;
-  font-size:13px;
+  position:absolute;top:15px;right:15px;
+  background:#2ecc71;color:#fff;
+  padding:6px 12px;border-radius:20px;font-size:13px;
 }
 
-h1{ margin-top:40px; margin-bottom:6px; }
+h1{margin-top:40px;margin-bottom:6px;}
 
-.city{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  color:#666;
-  margin-bottom:20px;
-}
-
-.city img{ width:16px; }
+.city{display:flex;align-items:center;gap:6px;color:#666;margin-bottom:20px;}
+.city img{width:16px;}
 
 /* ===== GALERIE ===== */
 
-.gallery{ margin-bottom:25px; }
+.gallery{margin-bottom:25px;}
 
 .main-image{
-  overflow:hidden;
-  border-radius:8px;
-  position:relative;
-  height:450px;
+  overflow:hidden;border-radius:8px;
+  position:relative;height:450px;
 }
 
 .slider-track{
-  display:flex;
-  height:100%;
+  display:flex;height:100%;
   transition:transform 0.8s cubic-bezier(.77,0,.18,1);
 }
 
 .slider-track img{
-  width:100%;
-  flex-shrink:0;
-  object-fit:cover;
-  cursor:pointer;
+  width:100%;flex-shrink:0;
+  object-fit:cover;cursor:pointer;
 }
 
 .thumbs{
-  display:flex;
-  justify-content:center;
-  gap:10px;
+  display:flex;gap:10px;
   margin-top:10px;
   overflow-x:auto;
+  scroll-behavior:smooth;
 }
 
 .thumbs img{
-  width:80px;
-  height:80px;
-  object-fit:cover;
-  border-radius:6px;
-  cursor:pointer;
-  opacity:.5;
+  width:80px;height:80px;
+  object-fit:cover;border-radius:6px;
+  cursor:pointer;opacity:.5;
   transition:all .25s ease;
   border:2px solid transparent;
+  flex-shrink:0;
 }
 
-.thumbs img:hover{
-  opacity:1;
-  transform:scale(1.05);
-}
-
+.thumbs img:hover{opacity:1;transform:scale(1.05);}
 .thumbs img.active{
-  opacity:1;
-  border:2px solid #0a66c2;
+  opacity:1;border:2px solid #0a66c2;
   transform:scale(1.05);
   box-shadow:0 6px 18px rgba(0,0,0,0.15);
 }
 
-/* ===== INFOS 3 PAR 3 ===== */
+/* ===== INFOS ===== */
 
 .infos{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin:25px 0;
+  gap:15px;margin:25px 0;
 }
 
 .info-box{
   background:#f2f2f2;
-  padding:15px;
-  border-radius:8px;
+  padding:15px;border-radius:8px;
   text-align:center;
 }
 
-/* ===== ACCORDION ===== */
-
 .accordion-toggle{
-  text-align:center;
-  color:#0a66c2;
-  cursor:pointer;
-  margin:15px 0;
+  text-align:center;color:#0a66c2;
+  cursor:pointer;margin:15px 0;
   font-size:14px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
+  display:flex;justify-content:center;
+  align-items:center;gap:8px;
 }
 
 .energy{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:40px;
-  margin:25px 0;
+  gap:40px;margin:25px 0;
   text-align:center;
 }
 
-.energy img{ width:110px; cursor:pointer; }
-
-#moreInfos{ display:none; }
-
-p{ white-space:pre-line; }
+.energy img{width:110px;cursor:pointer;}
+#moreInfos{display:none;}
+p{white-space:pre-line;}
 
 /* ===== MODAL ===== */
 
 #imageModal{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  display:none;position:fixed;
+  top:0;left:0;width:100%;height:100%;
   background:rgba(0,0,0,0.9);
-  justify-content:center;
-  align-items:center;
+  justify-content:center;align-items:center;
   z-index:9999;
 }
 
-#imageModal img{
-  max-width:90%;
-  max-height:90%;
-}
-
+#imageModal img{max-width:90%;max-height:90%;}
 .closeModal{
-  position:absolute;
-  top:30px;
-  right:40px;
-  font-size:40px;
-  color:#fff;
-  cursor:pointer;
+  position:absolute;top:30px;right:40px;
+  font-size:40px;color:#fff;cursor:pointer;
 }
-
-/* MOBILE */
 
 @media(max-width:768px){
-  .main-image{ height:300px; }
+  .main-image{height:300px;}
 }
 </style>
 </head>
@@ -206,7 +143,7 @@ p{ white-space:pre-line; }
 <div class="container">
 
 <a href="locations.html" class="back-link">
-  <img src="assets/back.svg"> Retour
+<img src="assets/back.svg"> Retour
 </a>
 
 <span class="badge">Disponible</span>
@@ -224,7 +161,7 @@ p{ white-space:pre-line; }
 <div class="infos"></div>
 
 <div class="accordion-toggle" onclick="toggleInfos()">
-  <span id="toggleIcon">+</span> Charges & DPE
+<span id="toggleIcon">+</span> Charges & DPE
 </div>
 
 <div id="moreInfos">
@@ -240,12 +177,12 @@ p{ white-space:pre-line; }
 <div id="footer"></div>
 
 <div id="imageModal">
-  <span class="closeModal" onclick="closeModal()">×</span>
-  <img id="modalImg">
+<span class="closeModal" onclick="closeModal()">×</span>
+<img id="modalImg">
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded",function(){
 
 fetch("components/header.html")
 .then(r=>r.text())
@@ -256,50 +193,47 @@ fetch("components/footer.html")
 .then(d=>document.getElementById("footer").innerHTML=d);
 
 const id=new URLSearchParams(window.location.search).get("id");
-if(!id){ window.location.href="index.html"; return; }
+if(!id){window.location.href="index.html";return;}
 
 const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
 
 fetch(sheetURL)
 .then(res=>res.text())
 .then(csv=>{
-  const result=Papa.parse(csv,{header:true,skipEmptyLines:true});
-  const bien=result.data.find(b=>b.id==id);
-  if(!bien){ document.querySelector(".container").innerHTML="<h2>Bien introuvable</h2>"; return; }
+const result=Papa.parse(csv,{header:true,skipEmptyLines:true});
+const bien=result.data.find(b=>b.id==id);
+if(!bien){document.querySelector(".container").innerHTML="<h2>Bien introuvable</h2>";return;}
 
-  bien.images=bien.image?bien.image.split("|"):[];
-  initSlider(bien.images);
+bien.images=bien.image?bien.image.split("|"):[];
+initSlider(bien.images);
 
-  document.querySelector("h1").innerText=bien.titre||"";
-  document.querySelector(".city").innerHTML=`<img src="assets/loca.svg">${bien.ville||""}`;
+document.querySelector("h1").innerText=bien.titre||"";
+document.querySelector(".city").innerHTML=`<img src="assets/loca.svg">${bien.ville||""}`;
 
-  const badge=document.querySelector(".badge");
-  badge.innerText=bien.disponible==="TRUE"?"Disponible":"Vendu / Loué";
-  badge.style.background=bien.disponible==="TRUE"?"#2ecc71":"#e74c3c";
+const badge=document.querySelector(".badge");
+badge.innerText=bien.disponible==="TRUE"?"Disponible":"Vendu / Loué";
+badge.style.background=bien.disponible==="TRUE"?"#2ecc71":"#e74c3c";
 
-  document.querySelector(".infos").innerHTML=`
-    <div class="info-box"><strong>Surface</strong><br>${bien.surface||""} m²</div>
-    <div class="info-box"><strong>Type</strong><br>${bien.type||""}</div>
-    <div class="info-box">
-      <strong>${bien.loyer?"Loyer":"Prix"}</strong><br>
-      ${bien.loyer?bien.loyer+" € / mois":(bien.prix||"")+" €"}
-    </div>
-  `;
+document.querySelector(".infos").innerHTML=`
+<div class="info-box"><strong>Surface</strong><br>${bien.surface||""} m²</div>
+<div class="info-box"><strong>Type</strong><br>${bien.type||""}</div>
+<div class="info-box"><strong>${bien.loyer?"Loyer":"Prix"}</strong><br>${bien.loyer?bien.loyer+" € / mois":(bien.prix||"")+" €"}</div>
+`;
 
-  document.querySelector("p").innerHTML=bien.description||"";
+document.querySelector("p").innerHTML=bien.description||"";
 
-  const extra=document.querySelector(".extra-infos");
-  extra.innerHTML="";
-  if(bien.depot) extra.innerHTML+=`<div class="info-box"><strong>Dépôt</strong><br>${bien.depot}</div>`;
-  if(bien.honoraires) extra.innerHTML+=`<div class="info-box"><strong>Honoraires</strong><br>${bien.honoraires}</div>`;
-  if(bien.charges) extra.innerHTML+=`<div class="info-box"><strong>Charges</strong><br>${bien.charges}</div>`;
+const extra=document.querySelector(".extra-infos");
+extra.innerHTML="";
+if(bien.depot)extra.innerHTML+=`<div class="info-box"><strong>Dépôt</strong><br>${bien.depot}</div>`;
+if(bien.honoraires)extra.innerHTML+=`<div class="info-box"><strong>Honoraires</strong><br>${bien.honoraires}</div>`;
+if(bien.charges)extra.innerHTML+=`<div class="info-box"><strong>Charges</strong><br>${bien.charges}</div>`;
 
-  if(bien.dpe && bien.ges){
-    document.querySelector(".energy").innerHTML=`
-      <div><strong>DPE</strong><br><img src="${bien.dpe}" onclick="openModalSpecific('${bien.dpe}')"></div>
-      <div><strong>GES</strong><br><img src="${bien.ges}" onclick="openModalSpecific('${bien.ges}')"></div>
-    `;
-  }
+if(bien.dpe&&bien.ges){
+document.querySelector(".energy").innerHTML=`
+<div><strong>DPE</strong><br><img src="${bien.dpe}" onclick="openModalSpecific('${bien.dpe}')"></div>
+<div><strong>GES</strong><br><img src="${bien.ges}" onclick="openModalSpecific('${bien.ges}')"></div>
+`;
+}
 });
 });
 
@@ -309,116 +243,108 @@ let images=[];
 let currentIndex=1;
 let sliderInterval=null;
 let isTransitioning=false;
-let startX=0;
-let endX=0;
+let startX=0,endX=0;
 
 function initSlider(imgArray){
-  images=imgArray;
-  const track=document.getElementById("sliderTrack");
-  const thumbsContainer=document.querySelector(".thumbs");
-  track.innerHTML="";
-  thumbsContainer.innerHTML="";
-  if(images.length===0) return;
+images=imgArray;
+const track=document.getElementById("sliderTrack");
+const thumbsContainer=document.querySelector(".thumbs");
+track.innerHTML="";thumbsContainer.innerHTML="";
+if(images.length===0)return;
 
-  const extended=[images[images.length-1],...images,images[0]];
+const extended=[images[images.length-1],...images,images[0]];
 
-  extended.forEach(src=>{
-    const img=document.createElement("img");
-    img.src=src;
-    img.onclick=openModal;
-    track.appendChild(img);
-  });
+extended.forEach(src=>{
+const img=document.createElement("img");
+img.src=src;img.onclick=openModal;
+track.appendChild(img);
+});
 
-  images.forEach((src,i)=>{
-    const thumb=document.createElement("img");
-    thumb.src=src;
-    thumb.onclick=()=>manualSelect(i);
-    if(i===0) thumb.classList.add("active");
-    thumbsContainer.appendChild(thumb);
-  });
+images.forEach((src,i)=>{
+const thumb=document.createElement("img");
+thumb.src=src;
+thumb.onclick=()=>manualSelect(i);
+if(i===0)thumb.classList.add("active");
+thumbsContainer.appendChild(thumb);
+});
 
-  track.style.transform=`translateX(-100%)`;
-  addSwipe();
-  startSlider();
+track.style.transform=`translateX(-100%)`;
+addSwipe();startSlider();
 }
 
-function startSlider(){
-  stopSlider();
-  sliderInterval=setInterval(()=>nextSlide(),4000);
-}
-
-function stopSlider(){ clearInterval(sliderInterval); }
-
-function nextSlide(){ if(isTransitioning)return; isTransitioning=true; currentIndex++; moveSlider(); }
-function prevSlide(){ if(isTransitioning)return; isTransitioning=true; currentIndex--; moveSlider(); }
+function startSlider(){stopSlider();sliderInterval=setInterval(()=>nextSlide(),4000);}
+function stopSlider(){clearInterval(sliderInterval);}
+function nextSlide(){if(isTransitioning)return;isTransitioning=true;currentIndex++;moveSlider();}
+function prevSlide(){if(isTransitioning)return;isTransitioning=true;currentIndex--;moveSlider();}
 
 function moveSlider(){
-  const track=document.getElementById("sliderTrack");
-  track.style.transition="transform 0.8s cubic-bezier(.77,0,.18,1)";
-  track.style.transform=`translateX(-${currentIndex*100}%)`;
+const track=document.getElementById("sliderTrack");
+track.style.transition="transform 0.8s cubic-bezier(.77,0,.18,1)";
+track.style.transform=`translateX(-${currentIndex*100}%)`;
 
-  track.addEventListener("transitionend",()=>{
-    if(currentIndex===images.length+1){
-      track.style.transition="none";
-      currentIndex=1;
-      track.style.transform=`translateX(-100%)`;
-    }
-    if(currentIndex===0){
-      track.style.transition="none";
-      currentIndex=images.length;
-      track.style.transform=`translateX(-${images.length*100}%)`;
-    }
-    updateThumbs(currentIndex-1);
-    isTransitioning=false;
-  },{once:true});
+track.addEventListener("transitionend",()=>{
+if(currentIndex===images.length+1){track.style.transition="none";currentIndex=1;track.style.transform=`translateX(-100%)`;}
+if(currentIndex===0){track.style.transition="none";currentIndex=images.length;track.style.transform=`translateX(-${images.length*100}%)`;}
+updateThumbs(currentIndex-1);
+isTransitioning=false;
+},{once:true});
 }
 
-function manualSelect(i){ stopSlider(); currentIndex=i+1; moveSlider(); }
+function manualSelect(i){stopSlider();currentIndex=i+1;moveSlider();}
 
 function updateThumbs(activeIndex){
-  document.querySelectorAll(".thumbs img").forEach((t,i)=>{
-    t.classList.toggle("active", i===activeIndex);
-  });
+const container=document.querySelector(".thumbs");
+const thumbs=container.querySelectorAll("img");
+
+thumbs.forEach((t,i)=>t.classList.toggle("active",i===activeIndex));
+
+const activeThumb=thumbs[activeIndex];
+if(activeThumb){
+const containerWidth=container.offsetWidth;
+const thumbOffset=activeThumb.offsetLeft;
+const thumbWidth=activeThumb.offsetWidth;
+
+container.scrollTo({
+left:thumbOffset-(containerWidth/2)+(thumbWidth/2),
+behavior:"smooth"
+});
+}
 }
 
 function addSwipe(){
-  const slider=document.querySelector(".main-image");
-  slider.addEventListener("touchstart",e=>{ startX=e.touches[0].clientX; });
-  slider.addEventListener("touchend",e=>{
-    endX=e.changedTouches[0].clientX;
-    if(Math.abs(startX-endX)>50){
-      stopSlider();
-      startX>endX?nextSlide():prevSlide();
-    }
-  });
+const slider=document.querySelector(".main-image");
+slider.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+slider.addEventListener("touchend",e=>{
+endX=e.changedTouches[0].clientX;
+if(Math.abs(startX-endX)>50){stopSlider();startX>endX?nextSlide():prevSlide();}
+});
 }
 
 function openModal(){
-  stopSlider();
-  document.getElementById("modalImg").src=images[currentIndex-1];
-  document.getElementById("imageModal").style.display="flex";
+stopSlider();
+document.getElementById("modalImg").src=images[currentIndex-1];
+document.getElementById("imageModal").style.display="flex";
 }
 
 function openModalSpecific(src){
-  stopSlider();
-  document.getElementById("modalImg").src=src;
-  document.getElementById("imageModal").style.display="flex";
+stopSlider();
+document.getElementById("modalImg").src=src;
+document.getElementById("imageModal").style.display="flex";
 }
 
 function closeModal(){
-  document.getElementById("imageModal").style.display="none";
-  startSlider();
+document.getElementById("imageModal").style.display="none";
+startSlider();
 }
 
 function toggleInfos(){
-  const el=document.getElementById("moreInfos");
-  const icon=document.getElementById("toggleIcon");
-  if(el.style.display==="block"){ el.style.display="none"; icon.innerText="+"; }
-  else{ el.style.display="block"; icon.innerText="−"; }
+const el=document.getElementById("moreInfos");
+const icon=document.getElementById("toggleIcon");
+if(el.style.display==="block"){el.style.display="none";icon.innerText="+";}
+else{el.style.display="block";icon.innerText="−";}
 }
 </script>
 
 <script src="components/header.js"></script>
-
 </body>
 </html>
