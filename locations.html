@@ -152,7 +152,7 @@ const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo
 
 let locations = [];
 
-/* LOAD DATA AVEC PAPAPARSE */
+/* LOAD DATA AVEC TRI */
 fetch(sheetURL)
 .then(res=>res.text())
 .then(csv=>{
@@ -165,7 +165,12 @@ fetch(sheetURL)
   const data = result.data;
 
   // visible = TRUE uniquement
-  locations = data.filter(b => b.visible === "TRUE");
+  locations = data
+    .filter(b => b.visible === "TRUE")
+    .sort((a,b)=>{
+      if(a.disponible === b.disponible) return 0;
+      return a.disponible === "TRUE" ? -1 : 1;
+    });
 
   display(locations);
 });
@@ -176,7 +181,6 @@ function display(list){
 
   list.forEach(b=>{
 
-    // image (sans S)
     const imageList = b.image ? b.image.split("|") : [];
 
     container.innerHTML+=`
