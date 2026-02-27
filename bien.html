@@ -15,10 +15,7 @@ body{
   background:#f5f5f5;
 }
 
-#header{
-  position:relative;
-  z-index:1000;
-}
+#header{ position:relative; z-index:1000; }
 
 .container{
   max-width:1100px;
@@ -54,10 +51,7 @@ body{
   font-size:13px;
 }
 
-h1{
-  margin-top:40px;
-  margin-bottom:6px;
-}
+h1{ margin-top:40px; margin-bottom:6px; }
 
 .city{
   display:flex;
@@ -69,7 +63,7 @@ h1{
 
 .city img{ width:16px; }
 
-/* ===== GALERIE PREMIUM ===== */
+/* ===== GALERIE ===== */
 
 .gallery{ margin-bottom:25px; }
 
@@ -107,19 +101,35 @@ h1{
   object-fit:cover;
   border-radius:6px;
   cursor:pointer;
-  opacity:.7;
+  opacity:.5;
+  transition:all .25s ease;
+  border:2px solid transparent;
 }
 
-/* ===== INFOS ===== */
+.thumbs img:hover{
+  opacity:1;
+  transform:scale(1.05);
+}
+
+.thumbs img.active{
+  opacity:1;
+  border:2px solid #0a66c2;
+  transform:scale(1.05);
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* ===== INFOS CENTRÉES ===== */
 
 .infos{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
+  display:flex;
+  justify-content:center;
   gap:15px;
   margin:25px 0;
+  flex-wrap:wrap;
 }
 
 .info-box{
+  width:250px;
   background:#f2f2f2;
   padding:15px;
   border-radius:8px;
@@ -146,18 +156,11 @@ h1{
   text-align:center;
 }
 
-.energy img{
-  width:110px;
-  cursor:pointer;
-}
+.energy img{ width:110px; cursor:pointer; }
 
-#moreInfos{
-  display:none;
-}
+#moreInfos{ display:none; }
 
-p{
-  white-space:pre-line;
-}
+p{ white-space:pre-line; }
 
 /* ===== MODAL ===== */
 
@@ -189,9 +192,7 @@ p{
 }
 
 @media(max-width:768px){
-  .main-image{
-    height:300px;
-  }
+  .main-image{ height:300px; }
 }
 </style>
 </head>
@@ -203,17 +204,14 @@ p{
 <div class="container">
 
 <a href="locations.html" class="back-link">
-  <img src="assets/back.svg">
-  Retour
+  <img src="assets/back.svg"> Retour
 </a>
 
 <span class="badge">Disponible</span>
 
 <h1>Chargement...</h1>
-
 <div class="city"></div>
 
-<!-- GALERIE -->
 <div class="gallery">
   <div class="main-image">
     <div class="slider-track" id="sliderTrack"></div>
@@ -224,8 +222,7 @@ p{
 <div class="infos"></div>
 
 <div class="accordion-toggle" onclick="toggleInfos()">
-  <span id="toggleIcon">+</span>
-  Charges & DPE
+  <span id="toggleIcon">+</span> Charges & DPE
 </div>
 
 <div id="moreInfos">
@@ -240,7 +237,6 @@ p{
 
 <div id="footer"></div>
 
-<!-- MODAL -->
 <div id="imageModal">
   <span class="closeModal" onclick="closeModal()">×</span>
   <img id="modalImg">
@@ -257,32 +253,17 @@ fetch("components/footer.html")
 .then(r=>r.text())
 .then(d=>document.getElementById("footer").innerHTML=d);
 
-const params=new URLSearchParams(window.location.search);
-const id=params.get("id");
-
-if(!id){
-  window.location.href="index.html";
-  return;
-}
+const id=new URLSearchParams(window.location.search).get("id");
+if(!id){ window.location.href="index.html"; return; }
 
 const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBQ5pFGEGAWvo1GNcwrq1CqkiW1yOH_0Ei5Tj3LyNFTBUy1c-VvtcH9GmlzRpY31AsRDjaNnR8F_fE/pub?gid=0&single=true&output=csv";
 
 fetch(sheetURL)
 .then(res=>res.text())
 .then(csv=>{
-
-  const result = Papa.parse(csv,{
-    header:true,
-    skipEmptyLines:true
-  });
-
-  const data=result.data;
-  const bien=data.find(b=>b.id==id);
-
-  if(!bien){
-    document.querySelector(".container").innerHTML="<h2>Bien introuvable</h2>";
-    return;
-  }
+  const result=Papa.parse(csv,{header:true,skipEmptyLines:true});
+  const bien=result.data.find(b=>b.id==id);
+  if(!bien){ document.querySelector(".container").innerHTML="<h2>Bien introuvable</h2>"; return; }
 
   bien.images=bien.image?bien.image.split("|"):[];
   initSlider(bien.images);
@@ -317,22 +298,24 @@ fetch(sheetURL)
       <div><strong>GES</strong><br><img src="${bien.ges}" onclick="openModalSpecific('${bien.ges}')"></div>
     `;
   }
-
 });
 });
 
-/* ===== SLIDER PREMIUM ===== */
+/* ===== SLIDER PREMIUM COMPLET ===== */
 
 let images=[];
 let currentIndex=1;
 let sliderInterval=null;
 let isTransitioning=false;
+let startX=0;
+let endX=0;
 
 function initSlider(imgArray){
   images=imgArray;
   const track=document.getElementById("sliderTrack");
+  const thumbsContainer=document.querySelector(".thumbs");
   track.innerHTML="";
-
+  thumbsContainer.innerHTML="";
   if(images.length===0) return;
 
   const extended=[images[images.length-1],...images,images[0]];
@@ -344,7 +327,16 @@ function initSlider(imgArray){
     track.appendChild(img);
   });
 
+  images.forEach((src,i)=>{
+    const thumb=document.createElement("img");
+    thumb.src=src;
+    thumb.onclick=()=>manualSelect(i);
+    if(i===0) thumb.classList.add("active");
+    thumbsContainer.appendChild(thumb);
+  });
+
   track.style.transform=`translateX(-100%)`;
+  addSwipe();
   startSlider();
 }
 
@@ -353,16 +345,10 @@ function startSlider(){
   sliderInterval=setInterval(()=>nextSlide(),4000);
 }
 
-function stopSlider(){
-  clearInterval(sliderInterval);
-}
+function stopSlider(){ clearInterval(sliderInterval); }
 
-function nextSlide(){
-  if(isTransitioning) return;
-  isTransitioning=true;
-  currentIndex++;
-  moveSlider();
-}
+function nextSlide(){ if(isTransitioning)return; isTransitioning=true; currentIndex++; moveSlider(); }
+function prevSlide(){ if(isTransitioning)return; isTransitioning=true; currentIndex--; moveSlider(); }
 
 function moveSlider(){
   const track=document.getElementById("sliderTrack");
@@ -375,8 +361,34 @@ function moveSlider(){
       currentIndex=1;
       track.style.transform=`translateX(-100%)`;
     }
+    if(currentIndex===0){
+      track.style.transition="none";
+      currentIndex=images.length;
+      track.style.transform=`translateX(-${images.length*100}%)`;
+    }
+    updateThumbs(currentIndex-1);
     isTransitioning=false;
   },{once:true});
+}
+
+function manualSelect(i){ stopSlider(); currentIndex=i+1; moveSlider(); }
+
+function updateThumbs(activeIndex){
+  document.querySelectorAll(".thumbs img").forEach((t,i)=>{
+    t.classList.toggle("active", i===activeIndex);
+  });
+}
+
+function addSwipe(){
+  const slider=document.querySelector(".main-image");
+  slider.addEventListener("touchstart",e=>{ startX=e.touches[0].clientX; });
+  slider.addEventListener("touchend",e=>{
+    endX=e.changedTouches[0].clientX;
+    if(Math.abs(startX-endX)>50){
+      stopSlider();
+      startX>endX?nextSlide():prevSlide();
+    }
+  });
 }
 
 function openModal(){
@@ -399,13 +411,8 @@ function closeModal(){
 function toggleInfos(){
   const el=document.getElementById("moreInfos");
   const icon=document.getElementById("toggleIcon");
-  if(el.style.display==="block"){
-    el.style.display="none";
-    icon.innerText="+";
-  }else{
-    el.style.display="block";
-    icon.innerText="−";
-  }
+  if(el.style.display==="block"){ el.style.display="none"; icon.innerText="+"; }
+  else{ el.style.display="block"; icon.innerText="−"; }
 }
 </script>
 
