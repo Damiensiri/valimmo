@@ -79,6 +79,7 @@ h1{margin-top:40px;margin-bottom:6px;}
   box-shadow:0 6px 18px rgba(0,0,0,0.15);
 }
 
+/* 3 box principales */
 .infos{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -86,10 +87,9 @@ h1{margin-top:40px;margin-bottom:6px;}
   margin:25px 0;
 }
 
-/* ===== CENTRAGE SAFE DES EXTRA INFOS ===== */
-
+/* EXTRA INFOS CENTREES (indépendantes) */
 .extra-infos{
-  display:flex !important;
+  display:flex;
   justify-content:center;
   gap:15px;
   margin:25px 0;
@@ -175,7 +175,8 @@ p{white-space:pre-line;}
 </div>
 
 <div id="moreInfos">
-  <div class="infos extra-infos"></div>
+  <!-- ⚠️ ON A RETIRE class="infos" ICI -->
+  <div class="extra-infos"></div>
   <div class="energy"></div>
 </div>
 
@@ -227,30 +228,27 @@ const badge=document.querySelector(".badge");
 badge.innerText=bien.disponible==="TRUE"?"Disponible":"Vendu / Loué";
 badge.style.background=bien.disponible==="TRUE"?"#2ecc71":"#e74c3c";
 
-/* ===== LOYER REGLEMENTAIRE SIMPLE ===== */
+/* LOYER */
 
-const loyer = parseFloat(bien.loyer || 0);
-const provisions = parseFloat(bien.charges || 0);
+const loyer=parseFloat(bien.loyer||0);
+const provisions=parseFloat(bien.charges||0);
 
-let affichageLoyer = "";
-
+let affichageLoyer="";
 if(loyer){
-  affichageLoyer = provisions > 0
-    ? `${loyer} € / mois charges comprises`
-    : `${loyer} € / mois`;
+affichageLoyer=provisions>0
+?`${loyer} € / mois charges comprises`
+:`${loyer} € / mois`;
 }
 
 document.querySelector(".infos").innerHTML=`
 <div class="info-box"><strong>Surface</strong><br>${bien.surface||""} m²</div>
 <div class="info-box"><strong>Type</strong><br>${bien.type||""}</div>
-<div class="info-box">
-<strong>${bien.loyer ? affichageLoyer : (bien.prix||"")+" €"}</strong>
-</div>
+<div class="info-box"><strong>${bien.loyer?affichageLoyer:(bien.prix||"")+" €"}</strong></div>
 `;
 
 document.querySelector("p").innerHTML=bien.description||"";
 
-/* ===== EXTRA INFOS ===== */
+/* EXTRA INFOS */
 
 const extra=document.querySelector(".extra-infos");
 extra.innerHTML="";
