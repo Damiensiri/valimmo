@@ -79,7 +79,6 @@ h1{margin-top:40px;margin-bottom:6px;}
   box-shadow:0 6px 18px rgba(0,0,0,0.15);
 }
 
-/* 3 box principales */
 .infos{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -87,17 +86,20 @@ h1{margin-top:40px;margin-bottom:6px;}
   margin:25px 0;
 }
 
-/* EXTRA INFOS CENTREES (indépendantes) */
+/* ===== CENTRAGE UNIQUEMENT POUR EXTRA-INFOS ===== */
+
 .extra-infos{
-  display:flex;
   justify-content:center;
-  gap:15px;
-  margin:25px 0;
-  flex-wrap:wrap;
 }
 
-.extra-infos .info-box{
-  width:250px;
+.extra-infos:has(.info-box:only-child){
+  grid-template-columns:1fr;
+  justify-items:center;
+}
+
+.extra-infos:has(.info-box:nth-child(2):last-child){
+  grid-template-columns:repeat(2,1fr);
+  justify-items:center;
 }
 
 .info-box{
@@ -108,17 +110,22 @@ h1{margin-top:40px;margin-bottom:6px;}
 }
 
 .accordion-toggle{
-  text-align:center;color:#0a66c2;
-  cursor:pointer;margin:15px 0;
+  text-align:center;
+  color:#0a66c2;
+  cursor:pointer;
+  margin:15px 0;
   font-size:14px;
-  display:flex;justify-content:center;
-  align-items:center;gap:8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
 }
 
 .energy{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:40px;margin:25px 0;
+  gap:40px;
+  margin:25px 0;
   text-align:center;
 }
 
@@ -127,17 +134,24 @@ h1{margin-top:40px;margin-bottom:6px;}
 p{white-space:pre-line;}
 
 #imageModal{
-  display:none;position:fixed;
-  top:0;left:0;width:100%;height:100%;
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
   background:rgba(0,0,0,0.9);
-  justify-content:center;align-items:center;
+  justify-content:center;
+  align-items:center;
   z-index:9999;
 }
 
 #imageModal img{max-width:90%;max-height:90%;}
 .closeModal{
-  position:absolute;top:30px;right:40px;
-  font-size:40px;color:#fff;cursor:pointer;
+  position:absolute;
+  top:30px;
+  right:40px;
+  font-size:40px;
+  color:#fff;
+  cursor:pointer;
 }
 
 @media(max-width:768px){
@@ -175,8 +189,7 @@ p{white-space:pre-line;}
 </div>
 
 <div id="moreInfos">
-  <!-- ⚠️ ON A RETIRE class="infos" ICI -->
-  <div class="extra-infos"></div>
+  <div class="infos extra-infos"></div>
   <div class="energy"></div>
 </div>
 
@@ -228,8 +241,6 @@ const badge=document.querySelector(".badge");
 badge.innerText=bien.disponible==="TRUE"?"Disponible":"Vendu / Loué";
 badge.style.background=bien.disponible==="TRUE"?"#2ecc71":"#e74c3c";
 
-/* LOYER */
-
 const loyer=parseFloat(bien.loyer||0);
 const provisions=parseFloat(bien.charges||0);
 
@@ -243,12 +254,12 @@ affichageLoyer=provisions>0
 document.querySelector(".infos").innerHTML=`
 <div class="info-box"><strong>Surface</strong><br>${bien.surface||""} m²</div>
 <div class="info-box"><strong>Type</strong><br>${bien.type||""}</div>
-<div class="info-box"><strong>${bien.loyer?affichageLoyer:(bien.prix||"")+" €"}</strong></div>
+<div class="info-box">
+<strong>${bien.loyer?affichageLoyer:(bien.prix||"")+" €"}</strong>
+</div>
 `;
 
 document.querySelector("p").innerHTML=bien.description||"";
-
-/* EXTRA INFOS */
 
 const extra=document.querySelector(".extra-infos");
 extra.innerHTML="";
